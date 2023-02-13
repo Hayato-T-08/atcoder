@@ -33,3 +33,4 @@ int main() {
     cout << binary_search(52) << endl; // 6
     cout << binary_search(0) << endl; // 0
     cout << binary_search(911) << endl; // 10 (場外)
+}

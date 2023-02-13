@@ -1,0 +1,1 @@
+b[i]=lower_bound(a.begin(),a.end(),c[i])-a.begin();
