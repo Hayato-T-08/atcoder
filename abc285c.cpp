@@ -17,4 +17,4 @@ int main(){
         id=id+m*k;
     }
     cout<<id;
-}
+}   
