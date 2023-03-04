@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include <atcoder/all>
+#include <atcoder/dsu>
 
 using namespace std;
 using namespace atcoder;
