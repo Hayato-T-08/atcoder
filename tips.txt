@@ -1,1 +1,3 @@
 グラフで頂点の範囲が多いときはmapを使う
+サイクルの個数 union find 
+連結成分の個数 unionfind leaderの種類の数
