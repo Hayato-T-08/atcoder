@@ -1,33 +1,27 @@
-#include <iostream>
-#include <set>
-#include <algorithm>
+#include <bits/stdc++.h>
 using namespace std;
+int h,w;
 
-int main(void)
-{
-  int h, w;
-  int a[11][11];
-  
-  cin >> h >> w;
-  for(int y = 1; y <= h; y++) for(int x = 1; x <= w; x++) cin >> a[x][y];
-  
-  int p[20], l = h+w-2, ans = 0;
-  for(int i = 1; i <= l; i++){
-    if(i > w-1) p[i] = 1;
-    else p[i] = 0;
+int ans=0;
+void dfs(int i,int j,set<int> num,vector<vector<int>> a){
+  if(num.count(a[i][j])) return;
+  num.insert(a[i][j]);
+  if(i==h&&j==w){
+    ans++;
+    return;
   }
-  
-  do{
-    int x = 1, y = 1;
-    set<int> S; S.insert(a[1][1]);
-    for(int i = 1; i <= l; i++){
-      if(p[i]) y++;
-      else x++;
-      S.insert(a[x][y]);
+  if(i+1<=h) dfs(i+1,j,num,a);
+  if(j+1<=w) dfs(i,j+1,num,a);
+}
+int main(){
+  cin>>h>>w;
+  vector<vector<int>> a(h+1,vector<int>(w+1));
+    for(int i=1;i<=h;i++){
+      for(int j=1;j<=w;j++){
+        cin>>a[i][j];
+      }
     }
-    if(S.size() == l+1) ans++;
-  }while(next_permutation(p+1, p+l+1));
-  
-  cout << ans << endl;
-  return 0;
+    set<int> num;
+    dfs(1,1,num,a);
+    cout<<ans<<endl;
 }
