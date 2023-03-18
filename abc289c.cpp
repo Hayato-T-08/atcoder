@@ -3,24 +3,24 @@
 #include <vector>
 using namespace std;
 int main() {
-  int N, M;
-  cin >> N >> M;
-  vector<vector<int>> a(M);
-  for (int i = 0; i < M; i++) {
+  int n,m;
+  cin>>n>>m;
+  vector<vector<int>> a(m);
+  for(int i=0;i<m;i++){
     int c;
-    cin >> c;
+    cin>>c;
     a[i].resize(c);
-    for (auto& x : a[i]) cin >> x;
+    for(auto& x:a[i]) cin>>x;
   }
-  int ans = 0;
-  for (int b = 0; b < (1 << M); b++) {
+  int ans=0;
+  for(int b=0;b<(1<<m);b++){
     set<int> s;
-    for (int i = 0; i < M; i++) {
-      if ((b >> i) & 1) {
-        for (auto& x : a[i]) s.insert(x);
+    for(int i=0;i<m;i++){
+      if((b>>i)&1){
+        for(auto&x :a[i]) s.insert(x);
       }
     }
-    ans += (int)s.size() == N;
+    ans+=(int)s.size() ==n;
   }
-  cout << ans << "\n";
+  cout<<ans<<endl;
 }

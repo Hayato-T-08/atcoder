@@ -6,15 +6,16 @@ int main(){
   set<int> st;
   for(int i=0;i<n;i++){
     int a;
-    cin >> a;
+    cin>>a;
     st.insert(a);
   }
+
   for(int i=0;i<k;i++){
-    if(st.find(i)==st.end()){
-      cout << i << "\n";
+    if(!st.count(i)){
+      cout<<i<<endl;
       return 0;
     }
   }
-  cout << k << "\n";
+  cout<<k<<endl;
   return 0;
 }
