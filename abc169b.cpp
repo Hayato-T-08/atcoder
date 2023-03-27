@@ -16,20 +16,14 @@ int main(){
             cout<<0<<endl;
             return 0;
         }
+        ans=1;
     rep(i,n){
-        ll a=num[i];
-
         
-        if(i==0){ 
-            
-            ans=a;
-            continue;
-            }
-        if(ans*a>ll(1e18)) {
+        if(ans*num[i]>ll(1e18)) {
             cout<<-1<<endl;
             return 0;
         }
-        ans*=a;
+        ans*=num[i];
     }
     cout<<ans<<endl;
     return 0;
