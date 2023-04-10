@@ -1,6 +1,8 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <queue>
+#include <utility>
 using namespace std;
-using ll = long long;
+
 #define all(x) begin(x),end(x)
 #define rep(i, n) for (int i = 0; i < (int)(n); i++)
 #define rep3(i,m,n) for (int i = (m); (i) < (int)(n); ++ (i))
@@ -10,15 +12,25 @@ int main(){
     vector<int> a(n);
     rep(i,n) cin>>a[i];
 
-    set<int> price;
-    sort(all(a));
+    vector<int> ans(k);
+    priority_queue<int, vector<int>, greater<int> > q;
 
-    for(int i=0;i<(1<<n);i++){
-        int val=0;
-        for(int j=0;j<n;j++){
-            if(i&(i<<j)){
-                val+=a[i]
+    for(int i=0;i<n;i++) q.push(a[i]);
+    rep3(i,0,k){
+        int v=q.top();
+            if(i!=0){        
+                while(v==ans[i-1]){
+            q.pop();
+            v=q.top();
+        }}
+            ans[i]=v;
+            q.pop();
+            rep(j,n){
+                q.push(v+a[j]);
             }
-        }
+        
     }
+
+    cout<<ans[k-1]<<endl;
+    
 }
