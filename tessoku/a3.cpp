@@ -7,22 +7,25 @@ using ll = long long;
 int main(){
     int n,k;
     cin>>n>>k;
-    vector<int> a(n);
+
+    vector<int> p(n),q(n);
+
     rep(i,n){
-        cin>>a[i];
+        cin>>p[i];
     }
 
-    for(int i=0;i<(1<<n);i++){
-        int sum = 0;
-        for(int j=0;j<n;j++){
-            if(i & 1<<j){
-                sum += a[j];
+    rep(i,n){
+        cin>>q[i];
+    }
+
+    rep(i,n){
+        rep(j,n){
+            if(p[i]+q[j] == k){
+                cout<<"Yes"<<endl;
+                return 0;
             }
         }
-        if(sum == k){
-            cout<<"Yes"<<endl;
-            return 0;
-        }
     }
+
     cout<<"No"<<endl;
 }

@@ -5,21 +5,11 @@ using ll = long long;
 #define rep(i, n) for (int i = 0; i < (int)(n); i++)
 #define rep3(i,m,n) for (int i = (m); (i) < (int)(n); ++ (i))
 int main(){
-    int n,k;
-    cin>>n>>k;
-    vector<int> a(n);
-    rep(i,n){
-        cin>>a[i];
-    }
+    int a,b;
+    cin >> a >>b;
 
-    for(int i=0;i<(1<<n);i++){
-        int sum = 0;
-        for(int j=0;j<n;j++){
-            if(i & 1<<j){
-                sum += a[j];
-            }
-        }
-        if(sum == k){
+    for(int i=a;i<=b;i++){
+        if(100%i == 0){
             cout<<"Yes"<<endl;
             return 0;
         }
