@@ -20,7 +20,4 @@ int main(){
         cin >> l >> r;
         cout<< a[r] - a[l-1] <<endl;
     }
-
-
-
 }
