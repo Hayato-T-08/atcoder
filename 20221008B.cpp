@@ -1,22 +1,18 @@
-#include<iostream>
-#include<vector>
+#include <bits/stdc++.h>
 using namespace std;
-int main(){
-    int n,m;
-    cin>>n>>m;
-    vector<vector<int>> pep(n,vector<int>(n));
-    vector<vector<int>> dance(n);
-    for (int i = 0; i < m; ++i) {
-        int l;
-        cin >> l;
-        dance[i].resize(l);
-        for (int j = 0; j < l; ++j) {
-            cin >> dance[i][j];
-        }
-    }
-    for(int i = 0;i<n;i++){
-        for(int j=0;j<n;j++){
-            if(dance[i][j]==)
-        }
-    }
-    }
+#include <atcoder/all>
+using namespace atcoder;
+#define rep(i, n) for (int i = 0; i < (int)(n); i++)
+#define rep1(i, n) for (int i = 1; i < (int)(n+1); i++)
+#define rep3(i, m, n) for (int i = (int)(m); i < (int)(n); i++)
+using ll = long long;
+using P = pair<int,int>;
+using Graph = vector<vector<int>>;
+using mint = modint1000000007;
+int main() {
+    int n;
+    cin >> n;
+    int ans = 0;
+    cout << ans << endl;
+    return 0;
+}

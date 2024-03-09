@@ -7,9 +7,12 @@
             "command": "C:/msys64/mingw64/bin/g++.exe",
             "args": [
                 "-g",
+                "-O2",
+                "-std=c++17",
+                "-Wall",
                 "${file}",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}.exe"
+                "${fileDirname}/${fileBasenameNoExtension}.exe",
             ],
             "options": {
                 "cwd": "C:/msys64/mingw64/bin"
@@ -25,6 +28,8 @@
             "command": "C:/msys64/mingw64/bin/g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
+                "-std=c++17",
+                "-O2",
                 "-g",
                 "${file}",
                 "-o",
