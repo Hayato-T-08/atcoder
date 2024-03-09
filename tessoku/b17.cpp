@@ -21,5 +21,24 @@ int main() {
         dp[i] = min(dp[i-1]+abs(h[i]-h[i-1]),dp[i-2]+abs(h[i]-h[i-2]));
     }
 
-    cout << dp[n-1] << endl;
+    int place = n-1;
+
+    vector<int> ans;
+    while(true){
+        ans.push_back(place);
+        if(place == 0) break;
+
+        if(dp[place] == dp[place-1]+abs(h[place]-h[place-1])){
+            place--;
+        }else{
+            place -= 2;
+        }
+    }
+
+    reverse(ans.begin(),ans.end());
+
+    cout << ans.size() << endl;
+    rep(i,ans.size()){
+        cout << ans[i] + 1 << " ";
+    }
 }
