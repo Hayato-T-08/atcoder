@@ -5,7 +5,8 @@
         "vector": "cpp",
         "xstring": "cpp",
         "utility": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "algorithm": "cpp"
     },
     "cmake.configureOnOpen": true,
     "cmake.sourceDirectory": "C:/Users/sinnd/document/atcoder/ac-library-master/test/benchmark"
