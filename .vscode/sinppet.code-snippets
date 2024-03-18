@@ -30,7 +30,10 @@
 			"using P = pair<int,int>;",
 			"using Graph = vector<vector<int>>;",
 			"using mint = modint1000000007;",
-			
+			"const int inf = 1e9;",
+			"const int mod = 1e9+7;",
+			"const ll linf = 1e18;",
+			"",
 			"int main() {",
 			"    int n;",
 			"    cin >> n;",
