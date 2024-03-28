@@ -17,7 +17,16 @@ const ll linf = 1e18;
 int main() {
     int n;
     cin >> n;
-    int ans = 0;
-    cout << ans << endl;
+    vector<int> a;
+    rep(i,21){
+        a.push_back(i*5);
+    }
+    int min = -inf;
+    rep(i,21){
+        if(abs(a[i]-n)<abs(min-n)){
+            min = a[i];
+        }
+    }
+    cout << min << endl;
     return 0;
 }
