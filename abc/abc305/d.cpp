@@ -21,7 +21,7 @@ int main() {
     vector<ll> sum(n+1,0);
     rep(i,n){
         cin >> a[i];
-    }
+    }//累積和で二分探索
     rep(i,n){
         if(i==0){
             sum[i] = 0;
@@ -43,8 +43,17 @@ int main() {
         cin >> l[i] >> r[i];
     }
 
-    rep(i,n){
-        cout << sum[i] << " ";
+    auto f = [&](ll x){
+        int i = lower_bound(a.begin(), a.end(), x) - a.begin()-1;//一つ前の要素
+        if(i < 0) return 0;
+        int res = sum[i];
+        if(i%2 == 1) res += x - a[i];
+        return res;
+    };
+
+    rep(i,q){
+        ll ans = f(r[i]) - f(l[i]);
+        cout << ans << endl;
     }
     return 0;
 }
