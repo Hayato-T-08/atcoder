@@ -9,5 +9,6 @@
         "algorithm": "cpp"
     },
     "cmake.configureOnOpen": true,
-    "cmake.sourceDirectory": "C:/Users/sinnd/document/atcoder/ac-library-master/test/benchmark"
+    "cmake.sourceDirectory": "C:/Users/sinnd/document/atcoder/ac-library-master/test/benchmark",
+    "C_Cpp.default.compilerPath": "C:\\msys64\\mingw64\\bin\\gcc.exe"
 }
