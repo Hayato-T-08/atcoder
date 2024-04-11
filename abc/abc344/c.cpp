@@ -17,23 +17,37 @@ const ll linf = 1e18;
 int main() {
     int n;
     cin >> n;
-    vector<ll> a(12),b;
-    a[0] = 1;
-    rep(i,12){
-        a[i+1] = a[i]*10+1;
-    }
-
-    rep(i,12){
-        rep(j,12){
-            rep(k,12){
-                b.push_back(a[i]+a[j]+a[k]);
-            }
+    vector<ll> a(n);
+    rep(i,n) cin >> a[i];
+    int m;
+    cin >> m;
+    vector<ll> b(m);
+    rep(i,m) cin >> b[i];
+    int l;
+    cin >> l;
+    vector<ll> c(l);
+    rep(i,l) cin >> c[i];
+    int q;
+    cin >> q;
+    set<ll> sumab;
+    rep(i,n){
+        rep(j,m){
+            sumab.insert(a[i]+b[j]);
         }
     }
 
-    sort(b.begin(),b.end());   
-
-    b.erase(unique(b.begin(),b.end()),b.end());
-    cout << b[n-1] << endl;
+    rep(i,q){
+        int x;
+        cin >> x;
+        rep(i,l){
+            if(sumab.count(x-c[i])){
+                cout << "Yes" << endl;
+                break;
+            }
+            if(i == l-1){
+                cout << "No" << endl;
+            }
+        }
+    }
     return 0;
 }

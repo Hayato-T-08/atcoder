@@ -15,25 +15,24 @@ const int mod = 1e9+7;
 const ll linf = 1e18;
 
 int main() {
-    int n;
-    cin >> n;
-    vector<ll> a(12),b;
-    a[0] = 1;
-    rep(i,12){
-        a[i+1] = a[i]*10+1;
+    int n,k;
+    cin >> n >> k;
+    vector<int> p(n);
+    rep(i,n) {
+        cin >> p[i];
+        p[i]++;
+    }
+    double ans = 0;
+    vector<int> sum(n+1,0);
+    
+    rep(i,n){
+        sum[i+1] = sum[i] + p[i];
     }
 
-    rep(i,12){
-        rep(j,12){
-            rep(k,12){
-                b.push_back(a[i]+a[j]+a[k]);
-            }
-        }
+    ans = (double)(sum[k] - sum[0]);
+    for(int i=1;i<=n-k;i++){
+        ans = max(ans,(double)(sum[i+k] - sum[i]));
     }
-
-    sort(b.begin(),b.end());   
-
-    b.erase(unique(b.begin(),b.end()),b.end());
-    cout << b[n-1] << endl;
+    cout << fixed << setprecision(10) << ans/2.0 << endl;
     return 0;
 }

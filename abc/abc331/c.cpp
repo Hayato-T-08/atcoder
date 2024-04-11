@@ -17,23 +17,26 @@ const ll linf = 1e18;
 int main() {
     int n;
     cin >> n;
-    vector<ll> a(12),b;
-    a[0] = 1;
-    rep(i,12){
-        a[i+1] = a[i]*10+1;
+    vector<int> a(n),b;
+    ll sum = 0;
+    map<int,ll> mp,ans;
+    
+    rep(i,n){
+        cin >> a[i];
+        sum += a[i];
+        mp[a[i]]++;
+
     }
-
-    rep(i,12){
-        rep(j,12){
-            rep(k,12){
-                b.push_back(a[i]+a[j]+a[k]);
-            }
-        }
-    }
-
-    sort(b.begin(),b.end());   
-
+    b = a;
+    sort(b.begin(),b.end());
     b.erase(unique(b.begin(),b.end()),b.end());
-    cout << b[n-1] << endl;
+    rep(i,b.size()){
+        sum -= b[i]*mp[b[i]];
+        ans[b[i]] = sum;
+    }
+
+    rep(i,n){
+        cout << ans[a[i]] << " ";
+    }
     return 0;
 }
