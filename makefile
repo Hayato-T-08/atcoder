@@ -5,7 +5,7 @@ TARGET ?= example
 
 # コンパイラとコンパイルオプション
 CXX = g++
-CXXFLAGS = -Wall -std=c++11
+CXXFLAGS = -Wall -std=c++17
 
 # ソースファイル
 SRCS = $(TARGET).cpp
