@@ -15,29 +15,18 @@ const int mod = 1e9+7;
 const ll linf = 1e18;
 
 int main() {
-    int n,x;
-    cin >> n >> x;
-    vector<int> a(n-1);
-    rep(i,n-1) cin >> a[i];
+    int n,m;
+    cin >> n >> m;
+    vector<int> a(n);
+    rep(i,n) cin >> a[i];
     sort(a.begin(),a.end());
-    int min = a[0];
-    int max = a[n-2];
-    int sum = accumulate(a.begin(),a.end(),0);
-    sum-= (min + max);
-    rep(i,101){
-        int val = sum;
-        if(i < min){
-            val += min;
-        }else if(i > max){
-            val += max;
-        }else{
-            val += i;
-        }
-        if(val >= x){
-            cout << i << endl;
-            return 0;
-        }
+    // rep(i,n) cout << a[i] << " ";
+    // cout << endl;
+    ll ans = -100;
+    rep(i,n){
+        int it = lower_bound(a.begin(),a.end(),a[i]+m) - a.begin();
+        ans = max(ans,(ll)(it-i));
     }
-    cout << -1 << endl;
+    cout << ans << endl;
     return 0;
 }
