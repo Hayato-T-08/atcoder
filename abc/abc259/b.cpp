@@ -13,22 +13,15 @@ using mint = modint1000000007;
 const int inf = 1e9;
 const int mod = 1e9+7;
 const ll linf = 1e18;
-using ull = unsigned long long;
+double convert_to_rad(double deg) {
+	return deg * M_PI / 180.0;
+}
 int main() {
-    int n;
-    cin >> n;
-    vector<ll> a(n),b(n);
-    rep(i,n) cin >> a[i] >> b[i];
-    vector<int> num(n);
-    iota(num.begin(),num.end(),0);
-
-    auto f = [&](int i,int j){
-        ull x = (a[i] + b[i])*a[j];
-        ull y = (a[j] + b[j])*a[i];
-        if(x == y) return i < j;
-        return y > x;
-    };
-    sort(num.begin(),num.end(),f);
-    rep(i,n) cout << num[i] + 1 <<" ";
+    double a,b,d;
+    cin >> a >> b >> d;
+    double rad1 = atan2(b,a);
+    double dis = sqrt(a*a + b*b);
+    double rad2 = convert_to_rad(d);
+    cout << fixed << setprecision(16) << dis*cos(rad1+rad2) << " " << dis*sin(rad1+rad2) << endl;
     return 0;
 }
