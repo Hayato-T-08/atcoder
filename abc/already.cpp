@@ -15,20 +15,22 @@ const int mod = 1e9+7;
 const ll linf = 1e18;
 using ull = unsigned long long;
 int main() {
-    int n;
-    cin >> n;
-    vector<ll> a(n),b(n);
-    rep(i,n) cin >> a[i] >> b[i];
-    vector<int> num(n);
-    iota(num.begin(),num.end(),0);
+    int D,N;
+    cin >> D >> N;
+    vector<int> t(D+2,0);
+    rep(i,N){
+        int l,r;
+        cin >> l >> r;
+        t[l]++;
+        t[r+1]--;
+    }
+    vector<int> sum(D+2,0);
+    rep(i,D+1){
+        sum[i] = sum[i-1] + t[i];
+    }
 
-    auto f = [&](int i,int j){
-        ull x = (a[i] + b[i])*a[j];
-        ull y = (a[j] + b[j])*a[i];
-        if(x == y) return i < j;
-        return y > x;
-    };
-    sort(num.begin(),num.end(),f);
-    rep(i,n) cout << num[i] + 1 <<" ";
+    for(int i=1;i<=D;i++){
+        cout << sum[i] << endl;
+    }
     return 0;
 }

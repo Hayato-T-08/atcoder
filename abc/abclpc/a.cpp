@@ -15,23 +15,25 @@ const int mod = 1e9+7;
 const ll linf = 1e18;
 
 int main() {
-    int n,W;
-    cin >> n >> W;
-    vector<int> w(n),v(n);
-    rep(i,n) cin >> w[i] >> v[i];
-    vector<vector<ll>> dp(n+1,vector<ll>(W+1,0));
-    rep(i,n){
-        rep(j,W+1){
-            if (j-w[i] >= 0) {
-                dp[i+1][j] = max(dp[i+1][j], dp[i][j-w[i]]+v[i]);
+    int n,q;
+    cin >> n >> q;
+    dsu d(n);
+    rep(i,q){
+        int t;
+        cin >> t;
+        if(t == 0){
+            int u,v;
+            cin >> u >> v;
+            d.merge(u,v);
+        }else{
+            int u,v;
+            cin >> u >> v;
+            if(d.same(u,v)){
+                cout << 1 << endl;
+            }else{
+                cout << 0 << endl;
             }
-            dp[i+1][j] = max(dp[i+1][j], dp[i][j]);
         }
     }
-    ll ans = -1;
-    rep(i,W+1){
-        ans = max(ans, dp[n][i]);
-    }
-    cout << ans << endl;
     return 0;
 }
