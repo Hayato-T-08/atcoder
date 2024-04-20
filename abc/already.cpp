@@ -14,43 +14,51 @@ const int inf = 1e9;
 const int mod = 1e9+7;
 const ll linf = 1e18;
 using ull = unsigned long long;
+bool check(string s,string t){
+    if(s.size() + 1 != t.size()) return false;
+    int cur = 0;
+    for(int i=0; i<t.size();i++){
+        if(s[cur] == t[i]){
+            cur++;
+        }
+    }
+    
+    return cur == s.size();
+}
+bool check2(string s,string t){
+    if(s.size() != t.size()) return false;
+    int cur = 0;
+    rep(i,s.size()){
+        if(s[i] == t[i]){
+            cur++;
+        }
+    }
+    
+    return cur == s.size()-1;
+}
 int main() {
-    int n,m;
-    cin >> n >> m;
-    Graph G(n);
-    vector<int> a(m),b(m);
-    rep(i,m){
-        cin >> a[i];
-        a[i]--;
-    }
-
-    rep(i,m){
-        cin >> b[i];
-        b[i]--;
-    }
-
-    rep(i,m){
-        G[a[i]].push_back(b[i]);
-        G[b[i]].push_back(a[i]);
-    }
-    vector<int> color(n,-1);
-    auto f = [&](auto self, int v, int c) -> bool{
-        color[v] = c;
-        for(int nv : G[v]){
-            if(color[nv] == c) return false;
-            if(color[nv] == -1 && !self(self,nv,c^1)) return false;
-        }
-        return true;
-    };
-    ll ans = true;
+    int n;
+    string t;
+    cin >> n >> t;
+    vector<int> ans;
     rep(i,n){
-        if(color[i] != -1) continue;
-        if(!f(f,i,0)){
-            ans = false;
-            break;
+        string s;
+        cin >> s;
+        if(s.size() + 1 >= t.size()){
+            bool flag1 = (s == t);
+            bool flag2 = check(s,t);
+            bool flag3 = check(t,s);
+            bool flag4 = check2(s,t);
+            if(flag1 || flag2 || flag3 || flag4){
+                ans.push_back(i);
+            }
         }
+
     }
-    if(ans) cout << "Yes" << endl;
-    else cout << "No" << endl;
+    cout << ans.size() << endl;
+    rep(i,ans.size()){
+        cout << ans[i] + 1 << " ";
+    }
+    cout << endl;
     return 0;
 }
