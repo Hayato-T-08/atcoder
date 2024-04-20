@@ -22,22 +22,23 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int n;
-    cin >> n;
-    map<ll,ll> mp;
-    rep(i,n){
-        int s,c;
-        cin >> s >> c;
-        mp[s] = c;
+    int n,q;
+    cin >> n >> q;
+    vector<int> t(q);
+    vector<int> h(n,1);
+
+    rep(i,q){
+        cin >> t[i];
+        t[i]--;
+    }
+    rep(i,q){
+        h[t[i]] ^= 1;
     }
     int ans = 0;
-    while(mp.size()){
-        auto [s,c] = *mp.begin();
-        mp.erase(mp.begin());
-        ans += c%2;
-        c /= 2;
-        if(c) mp[s * 2] += c;
-
+    rep(i,n){
+        if(h[i] == 1){
+            ans++;
+        }
     }
     cout << ans << endl;
     return 0;

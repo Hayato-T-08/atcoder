@@ -22,23 +22,18 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int n;
-    cin >> n;
-    map<ll,ll> mp;
-    rep(i,n){
-        int s,c;
-        cin >> s >> c;
-        mp[s] = c;
+    string s;
+    cin >> s;
+    string num = s.substr(3,3);
+    int n = stoi(num);
+    if(n == 316){
+        cout << "No" << endl;
+    }else if(n >= 350){
+        cout << "No" << endl;
+    }else if(n>=1){
+        cout << "Yes" << endl;
+    }else{
+        cout << "No" << endl;
     }
-    int ans = 0;
-    while(mp.size()){
-        auto [s,c] = *mp.begin();
-        mp.erase(mp.begin());
-        ans += c%2;
-        c /= 2;
-        if(c) mp[s * 2] += c;
-
-    }
-    cout << ans << endl;
     return 0;
 }

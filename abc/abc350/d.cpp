@@ -20,25 +20,26 @@ void chmin(int& a, int b){
 void chmax(int& a, int b){
     if(a < b) a = b;
 }
+ll ans = 0;
+
 
 int main() {
-    int n;
-    cin >> n;
-    map<ll,ll> mp;
-    rep(i,n){
-        int s,c;
-        cin >> s >> c;
-        mp[s] = c;
+    int n,m;
+    cin >> n >> m;
+    dsu d(n);
+    rep(i,m){
+        int a,b;
+        cin >> a >> b;
+        a--;b--;
+        d.merge(a,b);
     }
-    int ans = 0;
-    while(mp.size()){
-        auto [s,c] = *mp.begin();
-        mp.erase(mp.begin());
-        ans += c%2;
-        c /= 2;
-        if(c) mp[s * 2] += c;
 
+    auto groups = d.groups();
+    for(auto group : groups){
+        ll sz = group.size();
+        ans += (sz*(sz-1)/2);
     }
+    ans -= m;
     cout << ans << endl;
     return 0;
 }

@@ -14,6 +14,9 @@ const int inf = 1e9;
 const int mod = 1e9+7;
 const ll linf = 1e18;
 using ull = unsigned long long;
+int n;
+vector<P> ans;
+
 void chmin(int& a, int b){
     if(a > b) a = b;
 }
@@ -22,23 +25,23 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int n;
     cin >> n;
-    map<ll,ll> mp;
+    vector<int> a(n),pos(n);
     rep(i,n){
-        int s,c;
-        cin >> s >> c;
-        mp[s] = c;
+        cin >> a[i];
+        a[i]--;
+        pos[a[i]] = i;
     }
-    int ans = 0;
-    while(mp.size()){
-        auto [s,c] = *mp.begin();
-        mp.erase(mp.begin());
-        ans += c%2;
-        c /= 2;
-        if(c) mp[s * 2] += c;
 
+    rep(i,n){
+        if(a[i] == i) continue;
+        swap(a[i],a[pos[i]]);
+        pos[a[pos[i]]] = pos[i];
+        ans.push_back(P(i,pos[i]));
     }
-    cout << ans << endl;
+    cout << ans.size() << endl;
+    for(auto p : ans){
+        cout << p.first + 1 << " " << p.second + 1 << endl;
+    }
     return 0;
 }
