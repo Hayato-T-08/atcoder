@@ -25,18 +25,13 @@ int main() {
     int n;
     cin >> n;
     vector<ll> a(n);
+    rep(i,n) cin >> a[i];
+    ll ans = 0;
     rep(i,n){
-        cin >> a[i];
+        ans += a[i];
+        if(ans < 0) ans = 0;
     }
-    vector<ll> s(n-1),t(n-1);
-    rep(i,n-1){
-        cin >> s[i] >> t[i];
-    }
+    cout << ans << endl;
 
-    rep(i,n-1){
-        a[i] -= a[i]%s[i];
-        a[i+1] += a[i]/s[i]*t[i];
-    }
-    cout << a[n-1] << endl;
     return 0;
 }
