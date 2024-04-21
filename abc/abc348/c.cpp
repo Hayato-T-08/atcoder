@@ -14,36 +14,28 @@ const int inf = 1e9;
 const int mod = 1e9+7;
 const ll linf = 1e18;
 using ull = unsigned long long;
-void chmin(int& a, int b){
+void chmin(ll& a, ll b){
     if(a > b) a = b;
 }
-void chmax(int& a, int b){
+void chmax(ll& a, ll b){
     if(a < b) a = b;
 }
 
 int main() {
-    string s;
-    cin >> s;
-    map<char,int> mp;
-    map<int,int> mp2;
-    rep(i,s.size()){
-        mp[s[i]]++;
-    }
-    for(auto x: mp){
-        mp2[x.second]++;
+    int n;
+    cin >> n;
+    map<ll,ll> mp;
+    rep(i,n){
+        ll a,c;
+        cin >> a >> c;
+        if(mp[c] == 0) mp[c] = a;
+        else mp[c] = min(mp[c],a);
     }
 
-    bool flag = true;
-    for(auto x: mp2){
-        if(x.second != 2 && x.second != 0){
-            flag = false;
-        }
+    ll ans = 0;
+    for(auto x: mp){
+        ans = max(ans,x.second);
     }
-    if(flag){
-        cout << "Yes" << endl;
-    
-    }else{
-        cout << "No" << endl;
-    }
+    cout << ans << endl;
     return 0;
 }

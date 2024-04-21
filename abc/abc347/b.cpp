@@ -24,26 +24,13 @@ void chmax(int& a, int b){
 int main() {
     string s;
     cin >> s;
-    map<char,int> mp;
-    map<int,int> mp2;
-    rep(i,s.size()){
-        mp[s[i]]++;
-    }
-    for(auto x: mp){
-        mp2[x.second]++;
-    }
-
-    bool flag = true;
-    for(auto x: mp2){
-        if(x.second != 2 && x.second != 0){
-            flag = false;
+    set<string> st;
+    rep1(i,s.size()){
+        for(int j = 0; j + i <= s.size(); j++){
+            string t = s.substr(j,i);
+            st.insert(t);
         }
     }
-    if(flag){
-        cout << "Yes" << endl;
-    
-    }else{
-        cout << "No" << endl;
-    }
+    cout << st.size() << endl;
     return 0;
 }

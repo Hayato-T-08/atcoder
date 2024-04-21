@@ -14,51 +14,45 @@ const int inf = 1e9;
 const int mod = 1e9+7;
 const ll linf = 1e18;
 using ull = unsigned long long;
-bool check(string s,string t){
-    if(s.size() + 1 != t.size()) return false;
-    int cur = 0;
-    for(int i=0; i<t.size();i++){
-        if(s[cur] == t[i]){
-            cur++;
-        }
-    }
-    
-    return cur == s.size();
+void chmin(int& a, int b){
+    if(a > b) a = b;
 }
-bool check2(string s,string t){
-    if(s.size() != t.size()) return false;
-    int cur = 0;
-    rep(i,s.size()){
-        if(s[i] == t[i]){
-            cur++;
-        }
-    }
-    
-    return cur == s.size()-1;
+void chmax(int& a, int b){
+    if(a < b) a = b;
 }
-int main() {
-    int n;
-    string t;
-    cin >> n >> t;
-    vector<int> ans;
-    rep(i,n){
-        string s;
-        cin >> s;
-        if(s.size() + 1 >= t.size()){
-            bool flag1 = (s == t);
-            bool flag2 = check(s,t);
-            bool flag3 = check(t,s);
-            bool flag4 = check2(s,t);
-            if(flag1 || flag2 || flag3 || flag4){
-                ans.push_back(i);
-            }
-        }
 
+int main() {
+    int h,w,n;
+    cin >> h >> w >> n;
+    string t;
+    cin >> t;
+    vector<string> s(h);
+    rep(i,h){
+        cin >> s[i];
     }
-    cout << ans.size() << endl;
-    rep(i,ans.size()){
-        cout << ans[i] + 1 << " ";
+    int ans = 0;
+    rep(i,h){
+        rep(j,w){
+            if(s[i][j] == '#') continue;
+            bool ok = true;
+            P cur = {i,j};
+            rep(k,n){
+                
+                if(t[k] == 'U') cur.first--;
+                if(t[k] == 'D') cur.first++;
+                if(t[k] == 'L') cur.second--;
+                if(t[k] == 'R') cur.second++;
+                if(cur.first < 0 || cur.first >= h || cur.second < 0 || cur.second >= w || s[cur.first][cur.second] == '#')
+                { ok = false;
+                    break;
+                    }
+                if(s[cur.first][cur.second] == '#'){ ok = false;
+                    break;}
+            }
+
+            if(ok) ans++;
+        }
     }
-    cout << endl;
+    cout << ans << endl;
     return 0;
 }
