@@ -14,7 +14,7 @@ const int inf = 1e9;
 const int mod = 1e9+7;
 const ll linf = 1e18;
 using ull = unsigned long long;
-void chmin(ll& a, ll b){
+void chmin(int& a, int b){
     if(a > b) a = b;
 }
 void chmax(int& a, int b){
@@ -22,17 +22,35 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int n,s,m,l;
-    cin >> n >> s >> m >> l;
-    ll ans = inf;
-    rep(i,100){
-        rep(j,100){
-            rep(k,100){
-                ll cost = i*s + j*m + k*l;
-                if(6*i+8*j+12*k >= n){
-                    chmin(ans,cost);
+    int n,m;
+    string s;
+    cin >> n >> m;
+    cin >> s;
+    int ans = 0;
+    rep(i,10001){
+        int cnt = i,curT = m;
+        bool ok = true;
+        rep(j,n){
+            if(s[j]=='0'){
+                curT = m;
+                cnt = i;
+            }else if(s[j] == '1'){
+                if(curT == 0){
+                    cnt--;
+                }else{
+                    curT--;
                 }
+            }else{
+                cnt--;
             }
+            if(cnt < 0 || curT < 0){
+                ok = false;
+                break;
+            }
+        }
+        if(ok){
+            ans = i;
+            break;
         }
     }
     cout << ans << endl;
