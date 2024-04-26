@@ -13,6 +13,10 @@ using mint = modint1000000007;
 const int inf = 1e9;
 const int mod = 1e9+7;
 const ll linf = 1e18;
+// int dx[4] = {1,0,-1,0};
+// int dy[4] = {0,1,0,-1};
+// int dx[8] = {1,1,0,-1,-1,-1,0,1};
+// int dy[8] = {0,1,1,1,0,-1,-1,-1};
 using ull = unsigned long long;
 void chmin(int& a, int b){
     if(a > b) a = b;
@@ -22,16 +26,9 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int n,k;
-    cin >> n >> k;
+    int n;
+    cin >> n;
     int ans = 0;
-    rep1(i,n){
-        rep1(j,n){
-            if(k -i -j >= 1 and k-i-j <= n) {
-                ans++;
-            }
-        }
-    }
     cout << ans << endl;
     return 0;
 }
