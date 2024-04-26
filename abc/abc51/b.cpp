@@ -22,14 +22,12 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int n,k;
-    cin >> n >> k;
+    int k,s;
+    cin >> k >> s;
     int ans = 0;
-    rep1(i,n){
-        rep1(j,n){
-            if(k -i -j >= 1 and k-i-j <= n) {
-                ans++;
-            }
+    rep(i,k+1){
+        rep(j,k+1){
+            if(s - i -j >= 0 and s-i-j <=k) ans++;
         }
     }
     cout << ans << endl;

@@ -22,16 +22,15 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int n,k;
-    cin >> n >> k;
-    int ans = 0;
-    rep1(i,n){
-        rep1(j,n){
-            if(k -i -j >= 1 and k-i-j <= n) {
-                ans++;
-            }
-        }
+    int a,b,c,d;
+    cin >> a >> b >> c >> d;
+    int x = (c * d - b);
+    if(x <= 0){
+        cout << -1 << endl;
+        return 0;
     }
+    int ans = (a+x-1) / x;
+    if(ans <= 0) ans = -1;
     cout << ans << endl;
     return 0;
 }

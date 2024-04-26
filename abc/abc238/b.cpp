@@ -22,14 +22,24 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int n,k;
-    cin >> n >> k;
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    vector<int> deg(361,0);
+    rep(i,n) cin >> a[i];
+    deg[0] = 1;
+    deg[360] = 1;
+    int cur = 0;
+    rep(i,n){
+        cur += a[i];    
+        cur %= 360;
+        deg[cur] = 1;
+    }
     int ans = 0;
-    rep1(i,n){
-        rep1(j,n){
-            if(k -i -j >= 1 and k-i-j <= n) {
-                ans++;
-            }
+    rep(i,361){
+        if(deg[i] == 1){
+            chmax(ans,i-cur);
+            cur = i;
         }
     }
     cout << ans << endl;

@@ -1,36 +1,38 @@
-#include <iostream>
-#include <vector>
-#include <cstdlib>
+#define _USE_MATH_DEFINES
+#include <bits/stdc++.h>
 using namespace std;
-template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return true; } return false; }
-template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return true; } return false; }
-
-// 入力
-int N;
-long long a[100010][3]; // a[i], b[i], c[i] をそれぞれまとめて a[i][0], a[i][1], a[i][2] にしてしまう
-
-// DP テーブル
-long long dp[100010][3];
+#include <atcoder/all>
+using namespace atcoder;
+#define rep(i, n) for (int i = 0; i < (int)(n); i++)
+#define rep1(i, n) for (int i = 1; i < (int)(n+1); i++)
+#define rep3(i, m, n) for (int i = (int)(m); i < (int)(n); i++)
+using ll = long long;
+using P = pair<int,int>;
+using Graph = vector<vector<int>>;
+using mint = modint1000000007;
+const int inf = 1e9;
+const int mod = 1e9+7;
+const ll linf = 1e18;
+using ull = unsigned long long;
+void chmin(int& a, int b){
+    if(a > b) a = b;
+}
+void chmax(int& a, int b){
+    if(a < b) a = b;
+}
 
 int main() {
-    int N; cin >> N;
-    for (int i = 0; i < N; ++i) for (int j = 0; j < 3; ++j) cin >> a[i][j];
+    int n;
+    cin >> n;
+    vector<int> h(n);
+    rep(i,n) cin >> h[i];
 
-    // 初期化は既に 0 に初期化される
-    // 初期条件も既に 0 で OK
-
-    // ループ
-    for (int i = 0; i < N; ++i) {
-        for (int j = 0; j < 3; ++j) {
-            for (int k = 0; k < 3; ++k) {
-                if (j == k) continue;
-                chmax(dp[i + 1][k], dp[i][j] + a[i][k]);
-            }
-        }
+    vector<int> dp(n,inf);
+    dp[0] = 0;
+    rep(i,n){
+        if(i+1 < n) chmin(dp[i+1],dp[i]+abs(h[i]-h[i+1]));
+        if(i+2 < n) chmin(dp[i+2],dp[i]+abs(h[i]-h[i+2]));
     }
-
-    // 答え
-    long long res = 0;
-    for (int j = 0; j < 3; ++j) chmax(res, dp[N][j]);
-    cout << res << endl;
+    cout << dp[n-1] << endl;
+    return 0;
 }
