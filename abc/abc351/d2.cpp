@@ -52,7 +52,9 @@ int main() {
     seen.assign(h, vector<bool>(w, false));
     rep(i,h){
         rep(j,w){
-            seen[i][j] = check(i, j, s);
+            if(!check(i, j, s) && s[i][j] == '.'){
+                s[i][j] = '*';
+            }
         }
     }
     rep(i,h){
@@ -62,7 +64,7 @@ int main() {
                 int nx = i + dx[k];
                 int ny = j + dy[k];
                 if(nx < 0 || nx >= h || ny < 0 || ny >= w) continue;
-                if(!seen[nx][ny]) continue;
+                if(s[nx][ny] == '#' or s[nx][ny] == '*') continue;
                 g.add_edge(i*w+j, nx*w+ny);
                 g.add_edge(nx*w+ny, i*w+j);
             }
@@ -79,20 +81,12 @@ int main() {
 
         }
     }
-
-    for(int v : scc[idx]){
-        int x = v / w;
-        int y = v % w;
-        rep(i,4){
-        int nx = x + dx[i];
-        int ny = y + dy[i];
-        if(nx < 0 || nx >= h || ny < 0 || ny >= w) continue;
-        if(s[nx][ny] == '#') continue;
-        if(s[nx][ny] == '.' and seen[nx][ny] == false){
-            seen[nx][ny] = true;
-            ans++;
-            }
-        }
+    if(idx == -1){
+        cout << 1 << endl;
+        return 0;
+    }
+    for(auto v : scc){
+        
     }
     cout << ans << endl;
     return 0;
