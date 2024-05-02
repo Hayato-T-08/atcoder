@@ -18,6 +18,7 @@ const ll linf = 1e18;
 // int dx[8] = {1,1,0,-1,-1,-1,0,1};
 // int dy[8] = {0,1,1,1,0,-1,-1,-1};
 using ull = unsigned long long;
+int n,m;
 void chmin(int& a, int b){
     if(a > b) a = b;
 }
@@ -25,10 +26,41 @@ void chmax(int& a, int b){
     if(a < b) a = b;
 }
 
+bool check(vector<int> p, vector<int> c, vector<vector<bool>> f, int i, int j){
+    bool flag1 = false, flag2 = true, flag3 = false;
+    if(p[i] >= p[j]) flag1 = true;
+    rep(k,m){
+        if(f[i][k] && !f[j][k]) flag2 = false;
+        if(!f[i][k] && f[j][k]) flag3 = true;
+    }
+    flag3 |= p[i] > p[j];
+    return flag1 && flag2 && flag3;
+}
+
 int main() {
-    int n;
-    cin >> n;
-    int ans = 0;
-    cout << ans << endl;
+
+    cin >> n >> m;
+    vector<int> p(n),c(n);
+    vector f(n,vector<bool>(m));
+    rep(i,n){
+        cin >> p[i] >> c[i];
+        rep(j,c[i]) {
+            int x;
+            cin >> x;
+            x--;
+            f[i][x] = true;
+        }
+    }
+
+    rep(i,n){
+        rep(j,n){
+            if(i == j) continue;
+            if(check(p,c,f,i,j)){
+                cout << "Yes" << endl;  
+                return 0;
+            }
+        }
+    }
+    cout << "No" << endl;
     return 0;
 }
