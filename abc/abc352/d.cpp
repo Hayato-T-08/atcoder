@@ -18,7 +18,7 @@ const ll linf = 1e18;
 // int dx[8] = {1,1,0,-1,-1,-1,0,1};
 // int dy[8] = {0,1,1,1,0,-1,-1,-1};
 using ull = unsigned long long;
-void chmin(ll& a, ll b){
+void chmin(int& a, int b){
     if(a > b) a = b;
 }
 void chmax(int& a, int b){
@@ -26,16 +26,24 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    ll d;
-    ll ans = linf;
-    ll y = 2e6;
-    cin >> d;
-    for(ll x = 0; x*x <= d; x++){
-        while(x*x + y*y > d && y > 0){
-            y--;
+    int n,k;
+    cin >> n >> k;
+    vector<int> cnt(n,0);
+    rep(i,n){
+        int x;
+        cin >> x;
+        x--;
+        cnt[x] = i;
+    }
+    set<int> s;
+    int ans = inf;
+    rep(i,k) s.insert(cnt[i]);
+    rep(i,n-k+1){
+        chmin(ans, *s.rbegin() - *s.begin());
+        if(i+k < n){
+            s.erase(cnt[i]);
+            s.insert(cnt[i+k]);
         }
-        chmin(ans,abs(x*x+y*y-d));
-        chmin(ans,abs(x*x+(y+1)*(y+1)-d));
     }
     cout << ans << endl;
     return 0;

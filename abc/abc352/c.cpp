@@ -18,24 +18,26 @@ const ll linf = 1e18;
 // int dx[8] = {1,1,0,-1,-1,-1,0,1};
 // int dy[8] = {0,1,1,1,0,-1,-1,-1};
 using ull = unsigned long long;
-void chmin(ll& a, ll b){
+void chmin(int& a, int b){
     if(a > b) a = b;
 }
-void chmax(int& a, int b){
+void chmax(ll& a, ll b){
     if(a < b) a = b;
 }
 
 int main() {
-    ll d;
-    ll ans = linf;
-    ll y = 2e6;
-    cin >> d;
-    for(ll x = 0; x*x <= d; x++){
-        while(x*x + y*y > d && y > 0){
-            y--;
-        }
-        chmin(ans,abs(x*x+y*y-d));
-        chmin(ans,abs(x*x+(y+1)*(y+1)-d));
+    int n;
+    cin >> n;
+    ll ans = -inf;
+    ll sum = 0;
+    vector<ll> a(n),b(n);
+    rep(i,n) cin >> a[i] >> b[i];
+    rep(i,n){
+        sum += a[i];
+    }
+    rep(i,n){
+        ll tmp = sum - a[i] + b[i];
+        chmax(ans,tmp);
     }
     cout << ans << endl;
     return 0;
