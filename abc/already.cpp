@@ -26,7 +26,43 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    ll a,b;
-    cin >> a >> b;
+    int n;
+    cin >> n;
+    Graph G(n);
+    rep(i,n-1){
+        int a,b;
+        cin >> a >> b;
+        a--; b--;
+        G[a].push_back(b);
+        G[b].push_back(a);
+    }
+
+    vector<int> dist(n,-1);
+    queue<int> que;
+    dist[0] = 0;
+    que.push(0);
+    while(!que.empty()){
+        int v = que.front();
+        que.pop();
+        for(int nv : G[v]){
+            if(dist[nv] != -1) continue;
+            dist[nv] = dist[v] + 1;
+            que.push(nv);
+        }
+    }
+    int idx = max_element(dist.begin(),dist.end()) - dist.begin();
+    dist.assign(n,-1);
+    dist[idx] = 0;
+    que.push(idx);
+    while(!que.empty()){
+        int v = que.front();
+        que.pop();
+        for(int nv : G[v]){
+            if(dist[nv] != -1) continue;
+            dist[nv] = dist[v] + 1;
+            que.push(nv);
+        }
+    }
+    cout << *max_element(dist.begin(),dist.end()) + 1 << endl;
     return 0;
 }
