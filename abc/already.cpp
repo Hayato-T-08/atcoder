@@ -26,43 +26,25 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int n;
-    cin >> n;
-    Graph G(n);
-    rep(i,n-1){
-        int a,b;
+    int n,t;
+    cin >> n >> t;
+    vector<ull> p(n,0);
+    set<ull> s;
+    map<ull,ull> mp;
+    mp[0] = n;
+    s.insert(0);
+    rep(i,t){
+        ull a,b;
         cin >> a >> b;
-        a--; b--;
-        G[a].push_back(b);
-        G[b].push_back(a);
+        a--;
+        mp[p[a]]--;
+        if(mp[p[a]] == 0) s.erase(p[a]);
+        p[a] += b;
+        mp[p[a]]++;
+        s.insert(p[a]);
+        cout << s.size() << endl;
+
     }
 
-    vector<int> dist(n,-1);
-    queue<int> que;
-    dist[0] = 0;
-    que.push(0);
-    while(!que.empty()){
-        int v = que.front();
-        que.pop();
-        for(int nv : G[v]){
-            if(dist[nv] != -1) continue;
-            dist[nv] = dist[v] + 1;
-            que.push(nv);
-        }
-    }
-    int idx = max_element(dist.begin(),dist.end()) - dist.begin();
-    dist.assign(n,-1);
-    dist[idx] = 0;
-    que.push(idx);
-    while(!que.empty()){
-        int v = que.front();
-        que.pop();
-        for(int nv : G[v]){
-            if(dist[nv] != -1) continue;
-            dist[nv] = dist[v] + 1;
-            que.push(nv);
-        }
-    }
-    cout << *max_element(dist.begin(),dist.end()) + 1 << endl;
     return 0;
 }
