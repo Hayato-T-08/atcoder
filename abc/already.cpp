@@ -25,26 +25,38 @@ void chmax(int& a, int b){
     if(a < b) a = b;
 }
 
+struct Edge
+{
+    int to, cost;
+    Edge(int to, int cost) : to(to), cost(cost) {}
+};
 int main() {
-    int n,t;
-    cin >> n >> t;
-    vector<ull> p(n,0);
-    set<ull> s;
-    map<ull,ull> mp;
-    mp[0] = n;
-    s.insert(0);
-    rep(i,t){
-        ull a,b;
-        cin >> a >> b;
-        a--;
-        mp[p[a]]--;
-        if(mp[p[a]] == 0) s.erase(p[a]);
-        p[a] += b;
-        mp[p[a]]++;
-        s.insert(p[a]);
-        cout << s.size() << endl;
-
+    int n;
+    cin >> n;
+    vector<vector<Edge>> G(n);
+    rep(i,n-1){
+        int a,b,x;
+        cin >> a >> b >> x;
+        x--;
+        G[i].emplace_back(i+1,a);
+        G[i].emplace_back(x,b);
     }
-
+    vector<ll> dist(n,linf);
+    using P = pair<ll,int>;
+    priority_queue<P, vector<P>, greater<P>> que;   
+    dist[0] = 0;
+    que.emplace(0,0);  
+    while(!que.empty()){
+        auto [d,v] = que.top();
+        que.pop();
+        if(dist[v] != d) continue;
+        for(auto e : G[v]){
+            ll nd = dist[v] + e.cost;
+            if(dist[e.to] <= nd) continue;
+            dist[e.to] = nd;
+            que.emplace(nd,e.to);
+        }
+    }
+    cout << dist[n-1] << endl;
     return 0;
 }
