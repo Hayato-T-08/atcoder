@@ -18,45 +18,30 @@ const ll linf = 1e18;
 // int dx[8] = {1,1,0,-1,-1,-1,0,1};
 // int dy[8] = {0,1,1,1,0,-1,-1,-1};
 using ull = unsigned long long;
-void chmin(ll& a, ll b){
+void chmin(int& a, int b){
     if(a > b) a = b;
 }
 void chmax(int& a, int b){
     if(a < b) a = b;
 }
 
-struct Edge
-{
-    int to, cost;
-    Edge(int to, int cost) : to(to), cost(cost) {}
-};
 int main() {
     int n;
     cin >> n;
-    vector<vector<Edge>> G(n);
+    dsu d(n);
     rep(i,n-1){
-        int a,b,x;
-        cin >> a >> b >> x;
-        x--;
-        G[i].emplace_back(i+1,a);
-        G[i].emplace_back(x,b);
+        int u,v;
+        cin >> u >> v;
+        u--; v--;
+        if(u == 0 || v == 0) continue;
+        d.merge(u,v);
     }
-    vector<ll> dist(n,linf);
-    using P = pair<ll,int>;
-    priority_queue<P, vector<P>, greater<P>> que;   
-    dist[0] = 0;
-    que.emplace(0,0);  
-    while(!que.empty()){
-        auto [d,v] = que.top();
-        que.pop();
-        if(dist[v] != d) continue;
-        for(auto e : G[v]){
-            ll nd = dist[v] + e.cost;
-            if(dist[e.to] <= nd) continue;
-            dist[e.to] = nd;
-            que.emplace(nd,e.to);
-        }
+    auto groups = d.groups();
+    int ans = 0;
+    for(auto group : groups){
+        int size = group.size();
+        chmax(ans, size);
     }
-    cout << dist[n-1] << endl;
+    cout << n-ans << endl;
     return 0;
 }
