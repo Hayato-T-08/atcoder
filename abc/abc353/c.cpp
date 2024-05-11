@@ -11,7 +11,7 @@ using P = pair<int,int>;
 using Graph = vector<vector<int>>;
 using mint = modint1000000007;
 const int inf = 1e9;
-const int mod = 1e9+7;
+const ll mod = 1e8;
 const ll linf = 1e18;
 // int dx[4] = {1,0,-1,0};
 // int dy[4] = {0,1,0,-1};
@@ -25,36 +25,21 @@ void chmax(int& a, int b){
     if(a < b) a = b;
 }
 
-bool check(ll x, vector<ll> l, ll m){
-    int row = 0;
-    ll rem = 0;
-    rep(i,l.size()){
-        if(rem >= l[i] + 1){
-            rem -= l[i] + 1;
-        }else{
-            row++;
-            rem = x - l[i];
-            if(rem < 0) return false;
-        }
-    }
-    return row <= m;
-}
-
 int main() {
-    int n,m;
-    cin >> n >> m;
-    vector<ll> l(n);
-    rep(i,n) cin >> l[i];
-    ll left = -1;
-    ll right = 1e18;
-    while(right - left > 1){
-        ll mid = left + (right - left) / 2;
-        if(check(mid, l, m)){
-            right = mid;
-        }else{
-            left = mid;
-        }
+    int n;
+    cin >> n;
+    vector<ll> a(n);
+    rep(i,n) cin >> a[i];
+    sort(a.begin(), a.end());
+    ll ans = 0;
+    for(int i=0;i<n;i++){
+        auto it = lower_bound(a.begin() + i + 1, a.end(),mod-a[i]) - a.begin();
+
+        ans += (a[i] * (n-1));
+        if(n - it > 0) ans -=(mod * (n - it));
+
     }
-    cout << right << endl;
+
+    cout << ans << endl;
     return 0;
 }
