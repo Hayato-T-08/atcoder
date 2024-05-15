@@ -26,24 +26,19 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int x,y,z;
-    cin >> x >> y >> z;
-    string s;
-    cin >> s;
-    int n = s.size();
-    vector<vector<ll>> dp(n+1,vector<ll>(2,linf));
-    dp[0][0] = 0;
-    rep(i,n){
-
-            if(s[i] == 'A'){
-                dp[i+1][0] = min({dp[i+1][0],dp[i][1]+y+z,dp[i][0]+y});
-                dp[i+1][1] = min({dp[i+1][1],dp[i][1]+x,dp[i][0]+x+z});
-            }else{
-                dp[i+1][0] = min({dp[i+1][0],dp[i][1]+x+z,dp[i][0]+x});
-                dp[i+1][1] = min({dp[i+1][1],dp[i][1]+y,dp[i][0]+y+z});
+    int n,y;
+    cin >> n >> y;
+    for(int i=0;i<=n;i++){
+        for(int j=0;j<=n;j++){
+            int k = n-i-j;
+            if(k < 0 || k > n) continue;
+            if(10000*i+5000*j+1000*k == y){
+                cout << i << " " << j << " " << k << endl;
+                return 0;
             }
-        
+        }
     }
-    cout << min(dp[n][0],dp[n][1]) << endl;
+    cout << "-1 -1 -1" << endl;
+    
     return 0;
 }

@@ -25,36 +25,33 @@ void chmax(int& a, int b){
     if(a < b) a = b;
 }
 
-bool check(ll x, vector<ll> l, ll m){
-    int row = 0;
-    ll rem = 0;
-    rep(i,l.size()){
-        if(rem >= l[i] + 1){
-            rem -= l[i] + 1;
-        }else{
-            row++;
-            rem = x - l[i];
-            if(rem < 0) return false;
-        }
-    }
-    return row <= m;
-}
-
 int main() {
-    int n,m;
-    cin >> n >> m;
-    vector<ll> l(n);
-    rep(i,n) cin >> l[i];
+    int n,l;
+    cin >> n >> l;
+    int k;
+    cin >> k;
+    vector<int> a(n);
+    rep(i,n) cin >> a[i];
     ll left = -1;
-    ll right = 1e18;
+    ll right = 1e9+1;
+    auto f = [&](ll x) -> bool {
+        int cnt = 0;
+        int pre = 0;
+        rep(i,n){
+            if(a[i]-pre >= x){
+                cnt++;
+                pre = a[i];
+            }
+        }
+        if(l-pre >= x) cnt++;
+        return cnt >= k + 1;
+    };
+
     while(right - left > 1){
         ll mid = left + (right - left) / 2;
-        if(check(mid, l, m)){
-            right = mid;
-        }else{
-            left = mid;
-        }
+        if(f(mid)) left = mid;
+        else right = mid;
     }
-    cout << right << endl;
+    cout << left << endl;
     return 0;
 }

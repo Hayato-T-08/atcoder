@@ -18,6 +18,7 @@ const ll linf = 1e18;
 // int dx[8] = {1,1,0,-1,-1,-1,0,1};
 // int dy[8] = {0,1,1,1,0,-1,-1,-1};
 using ull = unsigned long long;
+
 void chmin(int& a, int b){
     if(a > b) a = b;
 }
@@ -30,19 +31,21 @@ int main() {
     cin >> x >> y >> z;
     string s;
     cin >> s;
+
     int n = s.size();
     vector<vector<ll>> dp(n+1,vector<ll>(2,linf));
-    dp[0][0] = 0;
-    rep(i,n){
 
-            if(s[i] == 'A'){
-                dp[i+1][0] = min({dp[i+1][0],dp[i][1]+y+z,dp[i][0]+y});
-                dp[i+1][1] = min({dp[i+1][1],dp[i][1]+x,dp[i][0]+x+z});
-            }else{
-                dp[i+1][0] = min({dp[i+1][0],dp[i][1]+x+z,dp[i][0]+x});
-                dp[i+1][1] = min({dp[i+1][1],dp[i][1]+y,dp[i][0]+y+z});
-            }
-        
+    dp[0][0] = 0;
+    rep(i,n)rep(c,2){//capslokがonかoffか
+        rep(nc,2){//次のcapslokがonかoffか
+            int cost = ((s[i] == 'A') == nc) ? x : y;
+            //Aでcapslockがonならx, offならy
+            //Aでcapslockがoffならy, onならx
+            //aでcapslockがonならy, offならx
+            //aでcapslockがoffならx, onならy
+            if(c != nc) cost += z;//capslockのonoffが変わるときはz
+            dp[i+1][nc] = min(dp[i+1][nc],dp[i][c]+cost);
+        }
     }
     cout << min(dp[n][0],dp[n][1]) << endl;
     return 0;
