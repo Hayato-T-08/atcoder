@@ -26,32 +26,19 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int n,l;
-    cin >> n >> l;
-    int k;
-    cin >> k;
-    vector<int> a(n);
-    rep(i,n) cin >> a[i];
-    ll left = -1;
-    ll right = 1e9+1;
-    auto f = [&](ll x) -> bool {
-        int cnt = 0;
-        int pre = 0;
-        rep(i,n){
-            if(a[i]-pre >= x){
-                cnt++;
-                pre = a[i];
-            }
-        }
-        if(l-pre >= x) cnt++;
-        return cnt >= k + 1;
+    ll n,m,k;
+    cin >> n >> m >> k;
+    ll lcm = n*m/__gcd(n,m);
+    auto f = [&](ll x){
+        return x/n + x/m - 2*(x/lcm) >= k;
     };
-
+    ll left = 0;
+    ll right = 1e18;
     while(right - left > 1){
-        ll mid = left + (right - left) / 2;
-        if(f(mid)) left = mid;
-        else right = mid;
+        ll mid = (left + right) / 2;
+        if(f(mid)) right = mid;
+        else left = mid;
     }
-    cout << left << endl;
+    cout << right << endl;
     return 0;
 }

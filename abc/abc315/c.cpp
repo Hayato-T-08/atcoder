@@ -28,15 +28,27 @@ void chmax(int& a, int b){
 int main() {
     int n;
     cin >> n;
-    set<string> s;
+    vector<vector<int>> g(n);
     rep(i,n){
-        string t;
-        cin >> t;
-        if(s.count(t)) continue;
-        reverse(t.begin(),t.end());
-        if(s.count(t)) continue;
-        s.insert(t);
+        int f,s;
+        cin >> f >> s;
+        f--;
+        g[f].push_back(s);
     }
-    cout << s.size() << endl;
+    vector<ll> ans;
+    rep(i,n){
+        sort(g[i].begin(),g[i].end(),greater<int>());
+        if(g[i].size() != 0) ans.push_back(g[i][0]);
+    }
+    sort(ans.begin(),ans.end(),greater<int>());
+    ll max = ans[0] + ans[1];
+    rep(i,n){
+        if(g[i].size() < 2) continue;
+        ll tmp = g[i][0]+g[i][1]/2;
+        if(tmp >= max){
+            max = tmp;
+        }
+    }
+    cout << max << endl;
     return 0;
 }
