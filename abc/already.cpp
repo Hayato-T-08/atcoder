@@ -26,19 +26,45 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    ll n,m,k;
-    cin >> n >> m >> k;
-    ll lcm = n*m/__gcd(n,m);
-    auto f = [&](ll x){
-        return x/n + x/m - 2*(x/lcm) >= k;
-    };
-    ll left = 0;
-    ll right = 1e18;
-    while(right - left > 1){
-        ll mid = (left + right) / 2;
-        if(f(mid)) right = mid;
-        else left = mid;
+    string t;
+    cin >> t;
+    int n;
+    cin >> n;
+    vector<vector<string>> s(n);
+    rep(i,n){
+        int a;
+        cin >> a;
+        rep(j,a){
+            string x;
+            cin >> x;
+            s[i].push_back(x);
+        }
     }
-    cout << right << endl;
+    vector<vector<int>> dp(n+1, vector<int>(t.size()+1, inf));
+    dp[0][0] = 0;
+    rep(i,n){
+        rep(j,t.size()+1){
+            chmin(dp[i+1][j], dp[i][j]);
+            for(auto x : s[i]){
+                if(j+x.size() <= t.size()){
+                    bool ok = true;
+                    rep(k,x.size()){
+                        if(t[j+k] != x[k]){
+                            ok = false;
+                        }
+                    }
+                    if(ok){
+                        chmin(dp[i+1][j+x.size()], dp[i][j]+1);
+                    }
+                }
+            }
+        }
+    }
+    if(dp[n][t.size()] == inf){
+        cout << -1 << endl;
+    }
+    else{
+        cout << dp[n][t.size()] << endl;
+    }
     return 0;
 }
