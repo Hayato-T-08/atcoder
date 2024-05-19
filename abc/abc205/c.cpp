@@ -26,23 +26,24 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int t;
-    cin >> t;
-    int q;
-    cin >> q;
-    vector<int> a(t+2);
-    rep(i,q){
-        int l,r;
-        cin >> l >> r;
-        a[l]++;
-        a[r]--;
+    ll a,b,c;
+    cin >> a >> b >> c;
+    if(c%2 == 0){
+        if(abs(a) == abs(b)){
+            cout << "=" << endl;
+        }else if(abs(a) > abs(b)){
+            cout << ">" << endl;
+        }else{
+            cout << "<" << endl;
+        }
+    }else{
+        if(a == b){
+            cout << "=" << endl;
+        }else if(a > b){
+            cout << ">" << endl;
+        }else{
+            cout << "<" << endl;
+        }
     }
-
-    vector<int> ans(t+1);
-    ans[0] = a[0];
-    rep1(i,t){
-        ans[i] = ans[i-1]+a[i];
-    }
-    rep(i,t) cout << ans[i] << endl;
     return 0;
 }

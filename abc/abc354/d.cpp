@@ -28,6 +28,23 @@ void chmax(int& a, int b){
 int main() {
     ll a,b,c,d;
     cin >> a >> b >> c >> d;
-    
+    a+=inf;
+    b+=inf;
+    c+=inf;
+    d+=inf;
+    vector<vector<ll>> A = {
+        {0,0,0,0,0},
+        {0,2,3,3,4},
+        {0,3,6,7,8}
+    };//2*4の長方形にある1*1の正方形の面積の2次元累積和
+    auto f = [&](ll y,ll x){
+        ll sub1 = (y/2)*(x/4)*A[2][4];
+        ll sub2 = (y/2)*A[2][x%4];
+        ll sub3 = (x/4)*A[y%2][4];
+        ll sub4 = A[y%2][x%4];
+        return sub1+sub2+sub3+sub4;
+    };
+    ll ans = f(d,c)-f(b,c)-f(d,a)+f(b,a);
+    cout << ans << endl;
     return 0;
 }
