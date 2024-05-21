@@ -9,7 +9,7 @@ using namespace atcoder;
 using ll = long long;
 using P = pair<int,int>;
 using Graph = vector<vector<int>>;
-using mint = modint1000000007;
+using mint = modint998244353;
 const int inf = 1e9;
 const int mod = 1e9+7;
 const ll linf = 1e18;
@@ -18,7 +18,7 @@ const ll linf = 1e18;
 // int dx[8] = {1,1,0,-1,-1,-1,0,1};
 // int dy[8] = {0,1,1,1,0,-1,-1,-1};
 using ull = unsigned long long;
-void chmin(int& a, int b){
+void chmin(ll& a, ll b){
     if(a > b) a = b;
 }
 void chmax(int& a, int b){
@@ -26,23 +26,43 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int t;
+    int n;
+    cin >> n;
+    string t;
     cin >> t;
-    int q;
-    cin >> q;
-    vector<int> a(t+2);
-    rep(i,q){
-        int l,r;
-        cin >> l >> r;
-        a[l]++;
-        a[r]--;
-    }
+    vector<int> ans;
+    auto f1 = [&](string s,string t){
+        if(t.size() != s.size() + 1) return false;
+        int cur = 0;
+        for(int i = 0; i < t.size(); i++){
+            if(t[i] == s[cur]) cur++;
+            if(cur == s.size()) return true;
+        }
+        return cur == s.size();
+    };
 
-    vector<int> ans(t+1);
-    ans[0] = a[0];
-    rep1(i,t){
-        ans[i] = ans[i-1]+a[i];
+    auto f2 = [&](string s,string t){
+        if(t.size() != s.size()) return false;
+        int error = 0;
+        for(int i = 0; i < t.size(); i++){
+            if(t[i] != s[i]) error++;
+            if(error > 1) return false;
+        }
+        return error == 1;
+    };
+
+    rep(i,n){
+        string s;
+        cin >> s;
+        if(s.size() == t.size() or s.size() == t.size() + 1 or s.size() == t.size() - 1){
+            if(f1(s,t) or f2(s,t) or s == t or f1(t,s)){
+                ans.push_back(i+1);
+            }
+        }
     }
-    rep(i,t) cout << ans[i] << endl;
+    cout << ans.size() << endl;
+    for(auto x : ans){
+        cout << x << " ";
+    }
     return 0;
 }

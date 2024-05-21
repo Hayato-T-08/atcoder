@@ -26,25 +26,15 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int n,q;
-    cin >> n >> q;
-    vector<ll> a(n);
-    rep(i,n) cin >> a[i];
-    vector<ll> c(n);
-    rep(i,n){
-        c[i] = a[i] - i - 1;
-    }
-    rep(qi,q){
-        ll k;
-        cin >> k;
-        int r = lower_bound(c.begin(),c.end(),k) - c.begin();
-        ll ans;
-        if(r == 0){
-            ans = k;
-        }else{
-            ans = a[r-1] + k - c[r-1];
+    ll n;
+    ll ans = 0;
+    cin >> n;
+    for(ll a = 1; a*a*a <=n; a++){
+        for(ll b = a; a*b*b <= n; b++){
+            ll maxC = n/(a*b);
+            ans+= maxC - b + 1;
         }
-        cout << ans << endl;
     }
+    cout << ans << endl;
     return 0;
 }
