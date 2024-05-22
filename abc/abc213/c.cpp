@@ -25,37 +25,23 @@ void chmax(int& a, int b){
     if(a < b) a = b;
 }
 
+vector<int> compress(vector<int> &a, int n){
+    map<int,int> mp;
+    rep(i,n) mp[a[i]] = 0;
+    int id = 1;
+    for(auto &p : mp) p.second = id++;
+    vector<int> res(n);
+    rep(i,n) res[i] = mp[a[i]];
+    return res;
+}
+
 int main() {
-    int n;
-    cin >> n;
-    Graph G(n);
-    rep(i,n){
-        int a;
-        cin >> a;
-        a--;
-        G[i].push_back(a);
-    }
-    vector<bool> seen(n,false);
-    vector<int> ans;
-    int idx = -1;
-    auto f = [&](auto f, int v) -> void {
-        seen[v] = true;
-        ans.push_back(v+1);
-        for(auto nv : G[v]){
-            if(seen[nv]){
-                idx = nv;
-                continue;
-            }
-            f(f,nv);
-        }
-        seen[v] = false;
-    };
-    f(f,0);
-    ans.clear();
-    f(f,idx);
-    cout << ans.size() << endl;
-    for(auto a : ans){
-        cout << a << " ";
-    }
+    int h,w,n;
+    cin >> h >> w >> n;
+    vector<int> a(n),b(n);
+    rep(i,n) cin >> a[i] >> b[i];
+    a = compress(a,n);
+    b = compress(b,n);
+    rep(i,n) cout << a[i] << " " << b[i] << endl;
     return 0;
 }
