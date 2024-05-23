@@ -26,26 +26,22 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int n;
-    cin >> n;
-    vector<int> t(n),l(n),r(n);
-    rep(i,n) cin >> t[i] >> l[i] >> r[i];
-    int ans = 0;
-    auto f = [&](int i, int j) -> bool {
-        bool res = true;
-        int l1 = l[i], r1 = r[i], l2 = l[j], r2 = r[j];
-        bool li = (t[i] == 3 || t[i] == 4), lj = (t[j] == 3 || t[j] == 4), ri = (t[i] == 2 || t[i] == 4), rj = (t[j] == 2 || t[j] == 4);
-        if(lj or ri) res &= (l2 < r1);
-        else res &= (l2 <= r1);
-        if(li or rj) res &= (l1 < r2);
-        else res &= (l1 <= r2);
-        return res;
-    };
-    rep(i,n){
-        rep3(j,i+1,n){
-            if(f(i,j)) ans++;
+    int n,q;
+    cin >> n >> q;
+    vector<ll> a(n);
+    rep(i,n) cin >> a[i];
+    sort(a.begin(),a.end());
+    rep(i,q){
+        ll x;
+        cin >> x;
+        int idx = lower_bound(a.begin(),a.end(),x)-a.begin();
+        if(idx == n){
+            cout << 0 << endl;
+        }
+        else{
+            cout << n - idx << endl;
         }
     }
-    cout << ans << endl;
+
     return 0;
 }
