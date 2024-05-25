@@ -25,25 +25,24 @@ void chmax(int& a, int b){
     if(a < b) a = b;
 }
 
+ll c2(ll x){
+    return x*(x-1)/2;
+
+}
+
 int main() {
-    int n,k;
-    cin >> n >> k;
-    vector<int> a(n);
-    rep(i,n) cin >> a[i];
-    sort(a.begin(),a.end());
-    auto f = [&](int x) -> bool {
-        ll cnt = 0;
-        rep(i,n){
-            cnt += x/a[i];
-        }
-        return cnt >= k;
-    };
-    int l = 0, r = 1e9+1;
-    while(r-l > 1){
-        int x = (l+r)/2;
-        if(f(x)) r = x;
-        else l = x;
+    ll n;
+    cin >> n;
+    vector<ll> a(n);
+    map<ll,ll> mp;
+    rep(i,n){
+        cin >> a[i];
+        mp[a[i]]++;
     }
-    cout << r << endl;
+    ll ans = c2(n);
+    for(auto p : mp){
+        ans -= c2(p.second);
+    }
+    cout << ans << endl;
     return 0;
 }
