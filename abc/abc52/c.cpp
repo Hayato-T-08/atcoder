@@ -28,16 +28,27 @@ void chmax(int& a, int b){
 int main() {
     int n;
     cin >> n;
-    vector<ll> l(n),r(n);
-    rep(i,n) cin >> l[i] >> r[i];
-    sort(l.begin(), l.end());
-    sort(r.begin(), r.end());
-    ll ans = ll(n) * (n-1) / 2;
-    int cnt = 0;
-    rep(i,n){
-    
-        while(r[cnt] < l[i]) cnt++;
-        ans -= cnt;
+    map<int, int> mp;
+    auto f = [&](int x){
+        int rem = x;
+        for(int i = 2; i*i <= x; i++){
+            while(rem % i == 0){
+                mp[i]++;
+                rem /= i;
+            }
+        }
+        if(rem != 1) mp[rem]++;
+    };
+    rep3(i,2,n+1){
+        if(i == 2 || i == 3 || i == 5 || i == 7) mp[i]++;
+        else
+        f(i);
+    }
+    ll ans = 1;
+    for(auto p : mp){
+
+        ans *= p.second+1;
+        ans %= mod;
     }
     cout << ans << endl;
     return 0;

@@ -28,18 +28,23 @@ void chmax(int& a, int b){
 int main() {
     int n,m;
     cin >> n >> m;
-    vector<int> a(n),b(m);
+    vector<int> a(n), b(m);
     rep(i,n) cin >> a[i];
     rep(i,m) cin >> b[i];
-    sort(a.begin(),a.end());
-    sort(b.begin(),b.end());
-    bool ans = false;
-    rep(i,n){
-        if(i+1 <n && a[i]+1 == a[i+1]) ans = true;
+    set<int> s(a.begin(), a.end());
+    vector<int> c(n+m);
+    rep(i,n) c[i] = a[i];
+    rep(i,m) c[n+i] = b[i];
+    sort(c.begin(), c.end());
+    rep(i,n+m){
+        if(i < n+m-1){
+            if(s.count(c[i]) && s.count(c[i+1])){
+                cout << "Yes" << endl;
+                return 0;
+            }
+        }
     }
-
-    if(ans) cout << "Yes" << endl;
-    else cout << "No" << endl;
+    cout << "No" << endl;
 
     return 0;
 }
