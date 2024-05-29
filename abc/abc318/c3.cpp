@@ -26,13 +26,22 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int n,a,b;
-    cin >> n >> a >> b;
-    vector<int> x(n);
-    rep(i,n) cin >> x[i];
-    ll ans = 0;
-    rep(i,n-1){
-        ans += min((ll)(x[i+1]-x[i])*a, (ll)b);
+    int n,d,p;
+    cin >> n >> d >> p;
+    vector<int> f(n);
+    rep(i,n) cin >> f[i];
+    sort(f.begin(),f.end());
+    vector<ll> sum(n+1);
+    rep(i,n){
+        sum[i+1] = sum[i] + f[i];
+    }
+
+    ll ans = linf;
+    rep(i,inf){//パスの枚数
+        int r = max(0, n - i*d);//パスを使わない日の数
+        ll now = sum[r] + (ll)i*p;//r日目までの合計金額
+        ans = min(ans, now);
+        if(r == 0) break;
     }
     cout << ans << endl;
     return 0;

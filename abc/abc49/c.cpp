@@ -26,14 +26,25 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int n,a,b;
-    cin >> n >> a >> b;
-    vector<int> x(n);
-    rep(i,n) cin >> x[i];
-    ll ans = 0;
-    rep(i,n-1){
-        ans += min((ll)(x[i+1]-x[i])*a, (ll)b);
+    string s;
+    cin >> s;
+    reverse(s.begin(),s.end());
+    int n = s.size();
+    set<string> st;
+    st.insert("maerd");
+    st.insert("remaerd");
+    st.insert("esare");
+    st.insert("resare");
+    string t = "";
+    string u = "";
+    rep(i,n){
+        u += s[i];
+        if(st.count(u)){
+            t += u;
+            u = "";
+        }
     }
-    cout << ans << endl;
+    if(s == t) cout << "YES" << endl;
+    else cout << "NO" << endl;
     return 0;
 }

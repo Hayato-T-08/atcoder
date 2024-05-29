@@ -26,13 +26,39 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int n,a,b;
-    cin >> n >> a >> b;
-    vector<int> x(n);
-    rep(i,n) cin >> x[i];
+    //
+    ll n,d,p;
+    cin >> n >> d >> p;
+    vector<ll> f(n);
+    rep(i,n) cin >> f[i];
+
+    sort(f.begin(),f.end());
+    reverse(f.begin(),f.end());
+
     ll ans = 0;
-    rep(i,n-1){
-        ans += min((ll)(x[i+1]-x[i])*a, (ll)b);
+    ll sum = 0;
+    int cnt = 0;
+    rep(i,n){
+        sum += f[i];
+        cnt++;
+        if(cnt == d){
+            if(sum >= p){
+                ans += p;
+                cnt = 0;
+                sum = 0;
+            }else{
+                ans += sum;
+                cnt = 0;
+                sum = 0;
+            }
+        }
+    }
+    if(cnt != 0){
+        if(sum >= p){
+            ans += p;
+        }else{
+            ans += sum;
+        }
     }
     cout << ans << endl;
     return 0;

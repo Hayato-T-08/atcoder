@@ -26,13 +26,23 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int n,a,b;
-    cin >> n >> a >> b;
-    vector<int> x(n);
-    rep(i,n) cin >> x[i];
-    ll ans = 0;
+    int n,x;
+    cin >> n >> x;
+    vector<int> a(n),b(n);
+
+    rep(i,n) cin >> a[i];
+    b = a;
+    if(a[0] > x){
+        b[0] = x;
+    }
     rep(i,n-1){
-        ans += min((ll)(x[i+1]-x[i])*a, (ll)b);
+        if(b[i] + b[i+1] > x){
+            b[i+1] = x - b[i];
+        }
+    }
+    ll ans = 0;
+    rep(i,n){
+        ans += a[i] - b[i];
     }
     cout << ans << endl;
     return 0;

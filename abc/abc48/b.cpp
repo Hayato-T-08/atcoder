@@ -26,14 +26,9 @@ void chmax(int& a, int b){
 }
 
 int main() {
-    int n,a,b;
-    cin >> n >> a >> b;
-    vector<int> x(n);
-    rep(i,n) cin >> x[i];
-    ll ans = 0;
-    rep(i,n-1){
-        ans += min((ll)(x[i+1]-x[i])*a, (ll)b);
-    }
+    ll a,b,x;
+    cin >> a >> b >> x;
+    ll ans = a==0 ? b/x + 1 :b/x - (a-1)/x;
     cout << ans << endl;
     return 0;
 }
