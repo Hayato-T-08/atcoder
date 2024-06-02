@@ -18,32 +18,23 @@ const ll linf = 1e18;
 // int dx[8] = {1,1,0,-1,-1,-1,0,1};
 // int dy[8] = {0,1,1,1,0,-1,-1,-1};
 using ull = unsigned long long;
-void chmin(int& a, int b){
-    if(a > b) a = b;
-}
-void chmax(int& a, int b){
-    if(a < b) a = b;
-}
+template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
+template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 
 int main() {
-    int n,k;
-    cin >> n >> k;
-    vector<int> a(n);
+    ll n;
+    cin >> n;
+    vector<ll> a(n);
     rep(i,n) cin >> a[i];
+    ll sum = 0;
     sort(a.begin(),a.end());
-    auto f = [&](int x) -> bool {
-        ll cnt = 0;
-        rep(i,n){
-            cnt += x/a[i];
-        }
-        return cnt >= k;
-    };
-    int l = 0, r = 1e9+1;
-    while(r-l > 1){
-        int x = (l+r)/2;
-        if(f(x)) r = x;
-        else l = x;
-    }
-    cout << r << endl;
+    rep(i,n) sum += (ll)a[i];
+    ll avg = sum / n;
+    ll rem = sum % n;
+    ll ans = 0;
+    rep(i,n-rem) ans += abs(a[i] - avg);
+    for(int i = n-rem; i < n; i++) ans += abs(a[i] - (avg+1));
+
+    cout << ans/2 << endl;
     return 0;
 }
