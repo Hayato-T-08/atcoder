@@ -21,31 +21,41 @@ using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 int main() {
-    ll n,m;
-    cin >> n >> m;
-    vector<ll> a(n);
-    rep(i,n){
-        cin >> a[i];
+    int n,x,y;
+    cin >> n >> x >> y;
+    x--; y--;
+    Graph G(n);
+    rep(i,n-1){
+        int u,v;
+        cin >> u >> v;
+        u--; v--;
+        G[u].push_back(v);
+        G[v].push_back(u);
     }
-    ll sum = 0;
-    for(int i = 0; i < m; i++){
-        sum += a[i];
-    }
+    vector<bool> seen(n,false);
+    stack<int> st;
+    vector<int> ans;
+    bool stop = false;
+    auto dfs = [&](auto self, int v) -> void {
+        if(!stop) st.push(v);
+        if(v == y) stop = true;
+        seen[v] = true;
+        for(auto next_v : G[v]){
+            if(seen[next_v]) continue;
+            self(self,next_v);
+        }
+        if(!stop) st.pop();
+        return;
+    };
 
-    ll now = 0;
-    rep(i,m){
-        now += (i+1)*a[i];
+    dfs(dfs,x);
+    while(!st.empty()){
+        ans.push_back(st.top());
+        st.pop();
     }
-    ll ans = now;
-    // cout << now << endl;
-    for(int i = 1; i < n - m + 1 ; i++ ){
-        now -= sum;
-        now += m*a[i+m-1];
-        // cout << now << endl;
-        chmax(ans,now); 
-        sum -= a[i-1];
-        sum += a[i+m-1];
+    reverse(ans.begin(),ans.end());
+    rep(i,ans.size()){
+        cout << ans[i] + 1 << " ";
     }
-    cout << ans << endl;
     return 0;
 }

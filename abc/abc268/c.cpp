@@ -21,31 +21,25 @@ using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 int main() {
-    ll n,m;
-    cin >> n >> m;
-    vector<ll> a(n);
+    int n;
+    cin >> n;
+    vector<int> p(n);   
     rep(i,n){
-        cin >> a[i];
+        cin >> p[i];
     }
-    ll sum = 0;
-    for(int i = 0; i < m; i++){
-        sum += a[i];
+    vector<int> q(n);
+    rep(i,n){
+        q[p[i]] = i;
     }
 
-    ll now = 0;
-    rep(i,m){
-        now += (i+1)*a[i];
+    int ans = 0;
+    vector<int> c(n);
+    rep(i,n){
+        rep(j,3){
+            c[(q[i] - i + j - 1 + n) % n]++;
+        }
     }
-    ll ans = now;
-    // cout << now << endl;
-    for(int i = 1; i < n - m + 1 ; i++ ){
-        now -= sum;
-        now += m*a[i+m-1];
-        // cout << now << endl;
-        chmax(ans,now); 
-        sum -= a[i-1];
-        sum += a[i+m-1];
-    }
+    ans = *max_element(c.begin(),c.end());
     cout << ans << endl;
     return 0;
 }
