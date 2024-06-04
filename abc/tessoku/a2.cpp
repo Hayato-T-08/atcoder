@@ -20,31 +20,17 @@ const ll linf = 1e18;
 using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
-struct Point{
-    double x,y;
-};
-
-bool jud(Point a, Point b, Point c , Point d){
-    double s,t;
-    s = (a.x - b.x) * (c.y - a.y) - (a.y - b.y) * (c.x - a.x);
-    t = (a.x - b.x) * (d.y - a.y) - (a.y - b.y) * (d.x - a.x);
-    if( s* t > 0) return false;
-
-    s = (c.x - d.x) * (a.y - c.y) - (c.y - d.y) * (a.x - c.x);
-    t = (c.x - d.x) * (b.y - c.y) - (c.y - d.y) * (b.x - c.x);
-    if (s * t > 0)
-        return false;
-    return true;
-}
-
 int main() {
-
-    Point a,b,c,d;
-    cin >> a.x >> a.y;
-    cin >> b.x >> b.y;
-    cin >> c.x >> c.y;
-    cin >> d.x >> d.y;
-    if(jud(a,c,b,d)) cout << "Yes" << endl;
-    else cout << "No" << endl;
+    int n,x;
+    cin >> n >> x;
+    vector<int> a(n);
+    rep(i,n) cin >> a[i];
+    rep(i,n){
+        if(a[i] == x){
+            cout<< "Yes" << endl;
+            return 0;
+        }
+    }
+    cout << "No" << endl;
     return 0;
 }
