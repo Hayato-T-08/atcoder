@@ -21,9 +21,18 @@ using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 int main() {
-    int n;
-    cin >> n;
-    cout << n * n << endl;
-    //12
+    int n,k;
+    cin >> n >> k;
+    vector<int> a(n);
+    rep(i,n) cin >> a[i];
+    ll ans = 0;
+    int cur = 0;
+    rep(i,n){
+        while(a[cur] - a[i] <= k && cur < n) cur++;
+        ans += (cur - i - 1); 
+
+        // cur - 1 ~ i+1までの合計は (cur - 1) - (i+1) + 1 = cur - i - 1
+    }
+    cout << ans << endl;
     return 0;
 }

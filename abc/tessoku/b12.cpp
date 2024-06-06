@@ -23,7 +23,21 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 int main() {
     int n;
     cin >> n;
-    cout << n * n << endl;
-    //12
+    auto f = [&](double x) -> double {
+        return x*x*x + x;
+    };
+
+    double l = 0.0,r = 100.0;
+    
+    auto check = [&](double x) -> bool {
+        return f(x) >= n;
+    };
+
+    while(r - l > 0.001){
+        double mid = l + (r-l)/(double)2.0;
+        if(check(mid)) r = mid;
+        else l = mid;
+    }
+    cout << r << endl;
     return 0;
 }

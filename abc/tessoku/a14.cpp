@@ -21,9 +21,30 @@ using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 int main() {
-    int n;
-    cin >> n;
-    cout << n * n << endl;
-    //12
+    int n,k;
+    cin >> n >> k;
+    vector<int> a(n),b(n),c(n),d(n);
+    rep(i,n) cin >> a[i];
+    rep(i,n) cin >> b[i];
+    rep(i,n) cin >> c[i];
+    rep(i,n) cin >> d[i];
+    vector<int> ab,cd;
+    rep(i,n){
+        rep(j,n) {
+            ab.push_back(a[i] + b[j]);
+            cd.push_back(c[i] + d[j]);
+        }
+    }
+    sort(cd.begin(),cd.end());
+
+    rep(i,n*n){
+        if(k-ab[i] < 0) continue;
+        auto it = lower_bound(cd.begin(),cd.end() , k-ab[i]);
+        if(*it == k-ab[i]){
+            cout << "Yes" <<endl;
+            return 0;
+        }
+    }
+    cout << "No" <<endl;
     return 0;
 }

@@ -21,9 +21,24 @@ using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 int main() {
-    int n;
-    cin >> n;
-    cout << n * n << endl;
-    //12
+    int n ,k;
+    cin >> n >> k;
+    vector<ll> a(n),sum(n);
+    rep(i,n) cin >> a[i];
+
+    sum[0] = a[0];
+    rep3(i,1,n) sum[i] = sum[i-1] + a[i];
+    int r = 0;
+    ll ans = 0;
+    rep(l,n){
+        ll left = (l == 0) ? 0 : sum[l-1];
+        while(sum[r] - left <= k and r < n) r++;
+    
+        ans += (r - l);
+
+    }
+
+    cout << ans << endl;
+
     return 0;
 }

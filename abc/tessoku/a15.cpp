@@ -23,7 +23,15 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 int main() {
     int n;
     cin >> n;
-    cout << n * n << endl;
-    //12
+    vector<int> a(n),b;
+    rep(i,n) cin >> a[i];
+    b = a;
+    sort(a.begin(),a.end());
+    a.erase(unique(a.begin(),a.end()),a.end());
+    rep(i,n){
+        int it = lower_bound(a.begin(),a.end(),b[i]) - a.begin();
+        cout << it + 1 << " ";
+    }
+    cout << endl;
     return 0;
 }

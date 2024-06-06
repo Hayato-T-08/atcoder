@@ -29,6 +29,7 @@ int main() {
             int siro = k - i - j;
             if(siro >= 1 and siro <= n){
                 ans++;
+                //a
             }
         }
     }
