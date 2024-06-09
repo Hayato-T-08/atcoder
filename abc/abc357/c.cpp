@@ -23,8 +23,6 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 int main() {
     int n;
     cin >> n;
-            dfs(dfs,n-1);
-            dfs(dfs,n-1);
     int size=1;
     for(int i=0;i<n;i++){
         size*=3;
