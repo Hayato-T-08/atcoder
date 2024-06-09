@@ -20,32 +20,34 @@ const ll linf = 1e18;
 using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
-
 int main() {
     int n;
     cin >> n;
-    string b = "#",w = ".";
-    auto dfs = [&](auto dfs, int n){
-        if(n==0){
-            cout << b;
-            return;
-        }else{
             dfs(dfs,n-1);
             dfs(dfs,n-1);
-            dfs(dfs,n-1);
-            cout << endl;
-            dfs(dfs,n-1);
-            cout << w;
-            dfs(dfs,n-1);
-            cout << endl;
-            dfs(dfs,n-1);
-            dfs(dfs,n-1);
-            dfs(dfs,n-1);
-            cout << endl;
-        }
-      
-    };
+    int size=1;
+    for(int i=0;i<n;i++){
+        size*=3;
+    }   
+    vector<vector<char>> s(size,vector<char>(size,'#'));
 
-    dfs(dfs,n);
+    rep(i,size){
+        rep(j,size){
+            int tmp = 1;
+            rep(k,n){
+                if((i/(tmp))%3 == 1 && (j/(tmp))%3 == 1){
+                    s[i][j] = '.';
+                }
+                tmp *= 3;
+            }
+        }
+    } 
+
+    rep(i,size){
+        rep(j,size){
+            cout << s[i][j];
+        }
+        cout << endl;
+    }
     return 0;
 }

@@ -1,49 +1,58 @@
-#include <iostream>
-#include <string>
-
+#define _USE_MATH_DEFINES
+#include <bits/stdc++.h>
 using namespace std;
+#include <atcoder/all>
+using namespace atcoder;
+#define rep(i, n) for (int i = 0; i < (int)(n); i++)
+#define rep1(i, n) for (int i = 1; i < (int)(n+1); i++)
+#define rep3(i, m, n) for (int i = (int)(m); i < (int)(n); i++)
+using ll = long long;
+using P = pair<int,int>;
+using Graph = vector<vector<int>>;
+using mint = modint1000000007;
+const int inf = 1e9;
+const int mod = 1e9+7;
+const ll linf = 1e18;
+// int dx[4] = {1,0,-1,0};
+// int dy[4] = {0,1,0,-1};
+// int dx[8] = {1,1,0,-1,-1,-1,0,1};
+// int dy[8] = {0,1,1,1,0,-1,-1,-1};
+using ull = unsigned long long;
+template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
+template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
+int main() {
+    int n;
+    cin >> n;
 
-void drawBlock(int k, int x, int y) {
-    if (k == 0) {
-        cout << "#";
-    } else {
-        int size = 3 * (1 << (k - 1));
-        if (x < size && y < size) {
-            drawBlock(k - 1, x, y);
-        } else if (x < size && y < 2 * size) {
-            drawBlock(k - 1, x, y - size);
-        } else if (x < size && y < 3 * size) {
-            drawBlock(k - 1, x, y - 2 * size);
-        } else if (x < 2 * size && y < size) {
-            drawBlock(k - 1, x - size, y);
-        } else if (x < 2 * size && y < 2 * size) {
-            cout << ".";
-        } else if (x < 2 * size && y < 3 * size) {
-            drawBlock(k - 1, x - size, y - 2 * size);
-        } else if (x < 3 * size && y < size) {
-            drawBlock(k - 1, x - 2 * size, y);
-        } else if (x < 3 * size && y < 2 * size) {
-            drawBlock(k - 1, x - 2 * size, y - size);
-        } else if (x < 3 * size && y < 3 * size) {
-            drawBlock(k - 1, x - 2 * size, y - 2 * size);
+    auto f = [&](auto f,int n){
+
+        if(n == 0) {
+            vector<vector<char>> s(1,vector<char>(1,'#'));
+            return s;
         }
-    }
-}
-
-void drawPattern(int k) {
-    int size = 3 * (1 << k);
-    for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; ++j) {
-            drawBlock(k, i, j);
+        
+        vector<vector<char>> t = f(f,n-1);
+        int l = t.size();
+        vector<vector<char>> ret(3*l,vector<char>(3*l,'.'));
+        rep(i,3){
+            rep(j,3){
+                if(i != 1 || j != 1){
+                    rep(k,l){
+                        rep(m,l){
+                            ret[i*l+k][j*l+m] = t[k][m];
+                        }
+                    }
+                }
+            }
+        }
+        return ret;
+    };
+    auto s = f(f,n);
+    rep(i,s.size()){
+        rep(j,s.size()){
+            cout << s[i][j];
         }
         cout << endl;
     }
-}
-
-int main() {
-    int k;
-    cout << "k=";
-    cin >> k;
-    drawPattern(k);
     return 0;
 }
