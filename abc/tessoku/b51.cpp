@@ -43,9 +43,19 @@ using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 int main() {
-    int n;
-    cin >> n;
-    int ans = 0;
-    cout << ans << endl;
+    string s;
+    cin >> s;
+    int n = s.size();
+    stack<int> st;
+    rep(i,n){
+        if(s[i] == '(') st.push(i);
+        else{
+            if(!st.empty()){
+                int idx = st.top();
+                st.pop();
+                cout << idx+1 << " " << i+1 << endl;
+            }
+        }
+    }
     return 0;
 }

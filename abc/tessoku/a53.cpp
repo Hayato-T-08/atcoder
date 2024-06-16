@@ -43,9 +43,21 @@ using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 int main() {
-    int n;
-    cin >> n;
-    int ans = 0;
-    cout << ans << endl;
+    int q;
+    cin >> q;
+    priority_queue<int,vector<int>,greater<int>> que;
+    rep(i,q){
+        int t;
+        cin >> t;
+        if(t==1){
+            int x;
+            cin >> x;
+            que.push(x);
+        }else if(t==2){
+            cout << que.top() << endl;
+        }else{
+            que.pop();
+        }
+    }
     return 0;
 }

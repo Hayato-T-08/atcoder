@@ -43,9 +43,20 @@ using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 int main() {
-    int n;
-    cin >> n;
-    int ans = 0;
-    cout << ans << endl;
+    int n,x;
+    cin >> n >> x;
+    string a;
+    cin >> a;
+    x--;
+    queue<int> q;
+    q.push(x);
+    a[x] = '@';
+    while(!q.empty()){
+        int f = q.front();
+        q.pop();
+        if(f - 1 >= 0 && a[f-1] == '.') q.push(f-1),a[f-1] = '@';
+        if(f+1 < n && a[f+1] == '.') q.push(f+1) ,a[f+1] = '@';
+    }
+    cout << a << endl;
     return 0;
 }

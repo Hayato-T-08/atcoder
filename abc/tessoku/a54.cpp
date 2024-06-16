@@ -43,9 +43,22 @@ using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 int main() {
-    int n;
-    cin >> n;
-    int ans = 0;
-    cout << ans << endl;
+    int q;
+    cin >> q;
+    map<string,int> mp;
+    rep(i,q){
+        int t;
+        cin >> t;
+        if(t==1){
+            string x;
+            int y;
+            cin >> x >> y;
+            mp[x] = y;
+        }else{
+            string x;
+            cin >> x;
+            cout << mp[x] << endl;
+        }
+    }
     return 0;
 }

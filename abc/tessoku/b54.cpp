@@ -45,7 +45,14 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 int main() {
     int n;
     cin >> n;
-    int ans = 0;
-    cout << ans << endl;
+    ll cnt = 0;
+    map<int,ll> mp;
+    rep(i,n){
+        int a;
+        cin >> a;
+        if(mp[a] > 0) cnt+=mp[a];
+        mp[a]++;
+    }
+    cout << cnt << endl;
     return 0;
 }
