@@ -47,55 +47,42 @@ void print2DVec(const std::vector<std::vector<T>>& array) {
 using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
-int n;
-class SegmentTree{
-    public:
-    vector<int> dat;
-    int siz = 1;
-    void init(int n){
-        siz = 1;
-        while(siz < n) siz*=2;
-        dat.resize(siz*2+1,0);
+int main() {
+    int n,m;
+    cin >> n >> m;
+    Graph g(n);
+    rep(i,m){
+        int a,b;
+        cin >> a >> b;
+        a--,b--;
+        g[a].push_back(b);
+        g[b].push_back(a);
     }
-    void update(int pos, int x){
-        pos = pos + siz - 1;
-        dat[pos] = x;
-        while(pos >= 2){
-            pos/=2;
-            dat[pos] = max(dat[pos*2], dat[pos*2+1]);
+
+    vector<bool> vi(n,false);
+    stack<int> st;
+    bool ok = true;
+    auto dfs = [&](auto dfs,int v) -> void {
+        vi[v] = true;
+        if(ok) st.push(v);
+        if(v == n - 1) ok = false;
+        for(auto nx : g[v]){
+            if(vi[nx]) continue;
+            dfs(dfs,nx);
         }
-    }
+        if(ok) st.pop();
+    };
 
-    int query(int l, int r, int a, int b ,int u){
-        if( r <= a || b <= l) return -inf;
-        if( l <= a && b <= r) return dat[u];
-        int m = (a + b)/2;
-        int al = query(l,r,a,m,u*2);
-        int ar = query(l,r,m,b,u*2+1);
-        return max(al,ar);
-    }
-};
+    dfs(dfs,0);
+    vector<int> ans;
 
-vector<bool> vi(n,false);
-auto dfs = [&](auto dfs,int v) -> void {
-    vi[v] = true;
-    for(auto nx : g[v]){
-        if(vi[nx]) continue;
-        dfs(dfs,nx);
+    while(!st.empty()){
+        ans.push_back(st.top() + 1);
+        st.pop();
     }
-};
-// bfs
-// vector<int> dis(n,-1);
-// queue<int> q;
-
-// q.push(0);
-// dis[0] = 0;
-// while(!q.empty()){
-//     int now = q.front();
-//     q.pop();
-//     for(auto nex : g[now]){
-//         if(dis[nex] != -1) continue;
-//         dis[nex] = dis[now] + 1;
-//         q.push(nex);
-//     }
-// }
+    reverse(all(ans));
+    for(auto x : ans){
+        cout << x << " ";
+    }
+    return 0;
+}
