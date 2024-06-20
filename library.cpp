@@ -48,6 +48,17 @@ using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 int n;
+
+struct Edge {
+    int u,v;
+    ll cost;
+    Edge() : u(0),v(0),cost(0){}
+    Edge(int u,int v,ll cost) : u(u),v(v),cost(cost){}
+    bool operator<(Edge &other){
+        return cost < other.cost;
+    }
+};
+
 class SegmentTree{
     public:
     vector<int> dat;
@@ -84,6 +95,44 @@ auto dfs = [&](auto dfs,int v) -> void {
         dfs(dfs,nx);
     }
 };
+
+class UnionFind {
+    public:
+    vector<int> parent,size;//parentが親で根が-1,sizeはグループのサイズ
+
+    void init(int n){
+        parent.resize(n);
+        size.resize(n);
+        rep(i,n){
+            parent[i] = -1;
+            size[i] = 1;
+        }
+    }
+
+    bool same(int u, int v){
+        return root(u) == root(v);
+    }
+
+    int root(int x){//根を返す関数
+        while(true){
+            if(parent[x] == -1) break;//根にたどり着いたら終了
+            x = parent[x];
+        }
+        return x;
+    }
+    void merge(int u,int v){
+        int ru = root(u), rv = root(v);
+        if(ru == rv) return;//同じグループだったら終了
+        if(size[ru] < size[rv]){//サイズがrvのほうが大きかったら
+            parent[ru] = rv;//rvをruの親に
+            size[rv] = size[rv] + size[ru];//統合  
+        }else{
+            parent[rv] = ru;
+            size[ru] = size[rv] + size[ru];
+        }
+    }
+};
+
 // bfs
 // vector<int> dis(n,-1);
 // queue<int> q;
@@ -121,3 +170,74 @@ auto dfs = [&](auto dfs,int v) -> void {
 // }
 
 // rep(i,n) cout << ((dist[i] == linf) ? -1 :dist[i]) << endl;
+
+//maxflow
+struct Edge
+{
+    int to, cap, rev; // 行先、容量、逆辺の場所(j)
+};
+
+class MaxFlow
+{
+public:
+    int size_ = 0;
+    vector<bool> used;
+    vector<vector<Edge>> G;
+
+    void init(int n)
+    {
+        size_ = n;
+        G.resize(n);
+    }
+
+    void add_edge(int a, int b, int c)
+    {
+        int cur_Ga = G[a].size(); // 現時点でのG[a]のサイズ
+        int cur_Gb = G[b].size(); // 現時点でのG[b]のサイズ
+        G[a].push_back(Edge{b, c, cur_Gb});
+        G[b].push_back(Edge{a, 0, cur_Ga});
+    }
+
+    int dfs(int pos, int goal, int F)
+    {
+        if (pos == goal)
+            return F;
+        used[pos] = true;
+
+        for (auto &nex : G[pos])
+        {
+            if (nex.cap == 0)
+                continue; // 容量0の辺は使えない
+            if (used[nex.to])
+                continue; // すでに訪問した頂点は無視
+
+            int flow = dfs(nex.to, goal, min(F, nex.cap)); // 目的地までのパスを探す。パス上の最小の容量がフロー
+
+            // フローが見つかり流せる場合残余グラフを更新
+            if (flow >= 1)
+            {
+                nex.cap -= flow;
+                G[nex.to][nex.rev].cap += flow; // 逆辺を増加
+                return flow;
+            }
+        }
+
+        return 0;
+        // 何も見つからなかった場合
+    }
+
+    int max_flow(int s, int t)
+    {
+        int total_flow = 0;
+        while (true)
+        {
+            used.assign(size_, false);
+            int F = dfs(s, t, inf);
+
+            if (F == 0)
+                break;
+            total_flow += F;
+        }
+        return total_flow;
+    }
+};
