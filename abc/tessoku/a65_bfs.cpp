@@ -47,77 +47,49 @@ void print2DVec(const std::vector<std::vector<T>>& array) {
 using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
-int n;
-class SegmentTree{
-    public:
-    vector<int> dat;
-    int siz = 1;
-    void init(int n){
-        siz = 1;
-        while(siz < n) siz*=2;
-        dat.resize(siz*2+1,0);
+int main() {
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    Graph g(n);
+    rep(i,n-1){
+        cin >> a[i];
+        a[i]--;
+
+        g[a[i]].push_back(i+1);
     }
-    void update(int pos, int x){
-        pos = pos + siz - 1;
-        dat[pos] = x;
-        while(pos >= 2){
-            pos/=2;
-            dat[pos] = max(dat[pos*2], dat[pos*2+1]);
+    vector<int> dp(n,0);
+    vector<int> dist(n,-1);
+    dist[0] = 0;
+    queue<int> q;
+    q.push(0);
+    while(!q.empty()){
+        int u = q.front();
+        q.pop();
+        for(auto v : g[u]){
+            if(dist[v] != -1) continue;
+            dist[v] = dist[u] + 1;
+            q.push(v);
         }
     }
-
-    int query(int l, int r, int a, int b ,int u){
-        if( r <= a || b <= l) return -inf;
-        if( l <= a && b <= r) return dat[u];
-        int m = (a + b)/2;
-        int al = query(l,r,a,m,u*2);
-        int ar = query(l,r,m,b,u*2+1);
-        return max(al,ar);
+    vector<P> num(n);
+    rep(i,n){
+        num[i] = {dist[i],i};
     }
-};
+    sort(all(num));
+    reverse(all(num));
 
-vector<bool> vi(n,false);
-auto dfs = [&](auto dfs,int v) -> void {
-    vi[v] = true;
-    for(auto nx : g[v]){
-        if(vi[nx]) continue;
-        dfs(dfs,nx);
+    rep(i,n){
+        int u = num[i].second;
+        // cout << u <<endl;
+        dp[u] = 0;
+        for(auto v : g[u]){
+            dp[u] += (dp[v] + 1);//上司->部下に辺が伸びているので
+            //一番下っ端の部下から初めて下の部下のdp[u] = sum(dp[v] + 1)となる
+        }
+
     }
-};
-// bfs
-// vector<int> dis(n,-1);
-// queue<int> q;
 
-// q.push(0);
-// dis[0] = 0;
-// while(!q.empty()){
-//     int now = q.front();
-//     q.pop();
-//     for(auto nex : g[now]){
-//         if(dis[nex] != -1) continue;
-//         dis[nex] = dis[now] + 1;
-//         q.push(nex);
-//     }
-// }
-
-//ダイクストラ法
-// vector<ll> dist(n,linf);
-// vector<bool> k(n,false);
-// dist[0] = 0;
-// priority_queue<pair<ll,ll>,vector<pair<ll,ll>>,greater<pair<ll,ll>>> q;
-// q.push({0,0});
-// while(!q.empty()){
-//     auto [cost,u] = q.top();
-//     q.pop();
-//     if(k[u]) continue;
-//     k[u] = true;
-//     for(auto nex : g[u]){
-//         auto [v,nex_cost] = nex;
-//         if(dist[v] > dist[u] + nex_cost){
-//             dist[v] = dist[u] + nex_cost;
-//             q.push({dist[v],v});
-//         }
-//     }
-// }
-
-// rep(i,n) cout << ((dist[i] == linf) ? -1 :dist[i]) << endl;
+    rep(i,n) cout << dp[i] << " ";
+    return 0;
+}
