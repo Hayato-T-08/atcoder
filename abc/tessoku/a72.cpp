@@ -47,34 +47,44 @@ void print2DVec(const std::vector<std::vector<T>>& array) {
 using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
-int op(int a,int b){
-    return min(a,b);
-}
-
-int e(){
-    return inf;
-}
 int main() {
-    int n,l,r;
-    cin >> n >> l >> r;
-    vector<int> x(n);
-    rep(i,n) cin >> x[i];
-
-    segtree<int ,op,e> Z(n);
-
-    vector<int> dp(n,inf);
-    dp[0] = 0;
-    Z.set(0,0);
-    //いける場所はl<= x <=rなので 
-    rep3(i,1,n){
-        int posl = lower_bound(all(x),x[i] - r) - x.begin();
-        int posr = lower_bound(all(x),x[i]-l+1) - x.begin();
-        posr--;
-        if(posr == -1) continue;
-        else chmin(dp[i],Z.prod(posl,posr+1)+1);
-        Z.set(i,dp[i]);
+    int h,w,k;
+    cin >> h >> w >> k;
+    vector<string> c(h);
+    rep(i,h) cin >> c[i];
+    int ans = 0;
+    vector<int> yoko(w);
+    rep(i,h){
+        rep(j,w){
+            if(c[i][j] == '.') yoko[j]++;
+        }
     }
-    cout << dp[n-1] << endl;
-    // printVec(dp);
+    rep(i,(1<<h)){
+        int cnt = k;
+        vector<string> tmp = c;
+        vector<int> yoko2 = yoko,idx(w);
+        iota(all(idx),0);
+        auto f = [&](int i, int j){
+            return yoko2[i] > yoko2[j];
+        };
+        rep(j,h){
+            if((1<<j) & i){
+                rep(k,w){
+                    if(c[j][k] == '.') yoko2[k]--;
+                    tmp[j][k] = '#';
+                    
+                }
+                cnt--;
+            }
+        }
+        sort(all(idx),f);
+        rep(j,cnt){
+            rep(i,h) tmp[i][idx[j]] = '#';
+        }
+        int count = 0;
+        rep(i,h)rep(j,w) if(tmp[i][j] == '#') count++;
+        if(cnt >= 0) chmax(ans,count);
+    }
+    cout << ans << endl;
     return 0;
 }

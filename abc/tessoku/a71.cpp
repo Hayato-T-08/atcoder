@@ -47,34 +47,19 @@ void print2DVec(const std::vector<std::vector<T>>& array) {
 using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
-int op(int a,int b){
-    return min(a,b);
-}
-
-int e(){
-    return inf;
-}
 int main() {
-    int n,l,r;
-    cin >> n >> l >> r;
-    vector<int> x(n);
-    rep(i,n) cin >> x[i];
-
-    segtree<int ,op,e> Z(n);
-
-    vector<int> dp(n,inf);
-    dp[0] = 0;
-    Z.set(0,0);
-    //いける場所はl<= x <=rなので 
-    rep3(i,1,n){
-        int posl = lower_bound(all(x),x[i] - r) - x.begin();
-        int posr = lower_bound(all(x),x[i]-l+1) - x.begin();
-        posr--;
-        if(posr == -1) continue;
-        else chmin(dp[i],Z.prod(posl,posr+1)+1);
-        Z.set(i,dp[i]);
+    int n;
+    cin >> n;
+    vector<int> a(n),b(n);
+    rep(i,n) cin >> a[i];
+    rep(i,n) cin >> b[i];
+    sort(all(a));
+    sort(all(b));
+    reverse(all(b));
+    ll ans = 0;
+    rep(i,n){
+        ans+=(a[i]*b[i]);
     }
-    cout << dp[n-1] << endl;
-    // printVec(dp);
+    cout << ans <<endl;
     return 0;
 }

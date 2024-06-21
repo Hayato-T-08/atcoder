@@ -15,6 +15,7 @@ using namespace atcoder;
 #define NO cout << "NO" << el
 using ll = long long;
 using P = pair<int,int>;
+using Pll = pair<ll,ll>;
 using Graph = vector<vector<int>>;
 using mint = modint1000000007;
 const int inf = 1e9;
@@ -47,34 +48,29 @@ void print2DVec(const std::vector<std::vector<T>>& array) {
 using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
-int op(int a,int b){
-    return min(a,b);
-}
-
-int e(){
-    return inf;
-}
 int main() {
-    int n,l,r;
-    cin >> n >> l >> r;
-    vector<int> x(n);
-    rep(i,n) cin >> x[i];
-
-    segtree<int ,op,e> Z(n);
-
-    vector<int> dp(n,inf);
-    dp[0] = 0;
-    Z.set(0,0);
-    //いける場所はl<= x <=rなので 
-    rep3(i,1,n){
-        int posl = lower_bound(all(x),x[i] - r) - x.begin();
-        int posr = lower_bound(all(x),x[i]-l+1) - x.begin();
-        posr--;
-        if(posr == -1) continue;
-        else chmin(dp[i],Z.prod(posl,posr+1)+1);
-        Z.set(i,dp[i]);
+    int n;
+    cin >> n;
+    vector<vector<int>> dp(n+1,vector<int> (1441,-1));
+    dp[0][0] = 0;
+    vector<int> t(n),d(n);
+    rep(i,n) cin >> t[i] >> d[i];
+    
+    vector<P> tmp(n);
+    rep(i,n) tmp[i] = {d[i],t[i]};
+    sort(all(tmp));
+    rep(i,n){
+        t[i] = tmp[i].second;
+        d[i] = tmp[i].first;
     }
-    cout << dp[n-1] << endl;
-    // printVec(dp);
+
+    rep1(i,n){
+        rep(j,1441){
+            chmax(dp[i][j],dp[i-1][j]);
+            if(j - t[i-1] >= 0 && j <= d[i-1]) chmax(dp[i][j],dp[i-1][j-t[i-1]]+1);
+        }
+    }
+
+    cout << *max_element(all(dp[n])) << el;
     return 0;
 }

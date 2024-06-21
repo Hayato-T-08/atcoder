@@ -15,6 +15,7 @@ using namespace atcoder;
 #define NO cout << "NO" << el
 using ll = long long;
 using P = pair<int,int>;
+using Pll = pair<ll,ll>;
 using Graph = vector<vector<int>>;
 using mint = modint1000000007;
 const int inf = 1e9;
@@ -47,34 +48,39 @@ void print2DVec(const std::vector<std::vector<T>>& array) {
 using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
-int op(int a,int b){
-    return min(a,b);
-}
-
-int e(){
-    return inf;
-}
 int main() {
-    int n,l,r;
-    cin >> n >> l >> r;
-    vector<int> x(n);
-    rep(i,n) cin >> x[i];
-
-    segtree<int ,op,e> Z(n);
-
-    vector<int> dp(n,inf);
-    dp[0] = 0;
-    Z.set(0,0);
-    //いける場所はl<= x <=rなので 
-    rep3(i,1,n){
-        int posl = lower_bound(all(x),x[i] - r) - x.begin();
-        int posr = lower_bound(all(x),x[i]-l+1) - x.begin();
-        posr--;
-        if(posr == -1) continue;
-        else chmin(dp[i],Z.prod(posl,posr+1)+1);
-        Z.set(i,dp[i]);
+    int n,w,L,R;
+    cin >> n >> w >> L >> R;
+    vector<ll> x;
+    x.push_back(0);//0がスタート
+    rep(i,n){
+        int k;
+        cin >> k;
+        x.push_back(k);
     }
-    cout << dp[n-1] << endl;
-    // printVec(dp);
+    x.push_back(w);//n+1がゴール
+    vector<mint> dp(n+2,0),sum(n+2,0);
+    dp[0] = 1;
+    sum[0] = dp[0];
+    
+    rep1(i,n+1){
+        int l = lower_bound(all(x), x[i] - R) - x.begin();
+        int r = upper_bound(all(x), x[i] - L) - x.begin();
+        // cout << l << " " << r <<el;
+        r--;
+        if(r == -1) dp[i]=0;
+        else dp[i] = sum[r];
+        if(l - 1 >= 0) dp[i] -= sum[l-1];
+        
+        sum[i] = sum[i-1] + dp[i];
+        // rep3(j,l,r) dp[j] += dp[i];
+
+    }
+
+    // rep(i,n+2) cout << dp[i].val() << " ";
+    // cout << el;
+    // rep(i,n+2) cout << sum[i].val() << " ";
+    // cout << el;
+    cout << dp[n+1].val() << endl;
     return 0;
 }

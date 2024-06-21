@@ -15,6 +15,7 @@ using namespace atcoder;
 #define NO cout << "NO" << el
 using ll = long long;
 using P = pair<int,int>;
+using Pll  = pair<ll,ll>;
 using Graph = vector<vector<int>>;
 using mint = modint1000000007;
 const int inf = 1e9;
@@ -47,34 +48,47 @@ void print2DVec(const std::vector<std::vector<T>>& array) {
 using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
-int op(int a,int b){
-    return min(a,b);
-}
-
-int e(){
-    return inf;
-}
 int main() {
-    int n,l,r;
-    cin >> n >> l >> r;
-    vector<int> x(n);
-    rep(i,n) cin >> x[i];
-
-    segtree<int ,op,e> Z(n);
-
-    vector<int> dp(n,inf);
-    dp[0] = 0;
-    Z.set(0,0);
-    //いける場所はl<= x <=rなので 
-    rep3(i,1,n){
-        int posl = lower_bound(all(x),x[i] - r) - x.begin();
-        int posr = lower_bound(all(x),x[i]-l+1) - x.begin();
-        posr--;
-        if(posr == -1) continue;
-        else chmin(dp[i],Z.prod(posl,posr+1)+1);
-        Z.set(i,dp[i]);
+    int n,m;
+    cin >> n >> m;
+    vector<vector<Pll>> g(n);
+    const ll w = 1e6;
+    rep(i,m){
+        int a,b,c,d;
+        cin >> a >> b >> c >> d;
+        a--,b--;
+        if(d == 1){
+            g[a].push_back({b,c*w - 1});
+            g[b].push_back({a,c*w - 1});
+        }else{
+            g[a].push_back({b,c*w});
+            g[b].push_back({a,c*w});
+        }
     }
-    cout << dp[n-1] << endl;
-    // printVec(dp);
+
+    vector<bool> k(n);
+    vector<ll> dist(n,linf);
+    dist[0] = 0;
+    priority_queue<Pll, vector<Pll>, greater<Pll>> q;
+    q.push({0,0});
+
+    while(!q.empty()){
+        auto [cost1,u] = q.top();
+        q.pop();
+        k[u] = true;
+        for(auto nex : g[u]){
+            auto [v,cost] = nex;
+            if(k[v]) continue;
+            if(dist[v] > dist[u] + cost){
+                dist[v] = dist[u] + cost;
+                q.push({dist[v],v});
+            }
+        }
+    }
+    ll path = (dist[n-1] + w - 1)/w;
+    ll tree = path*w - dist[n-1];
+
+    cout << path << " " << tree <<el;
+
     return 0;
 }

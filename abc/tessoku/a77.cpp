@@ -15,6 +15,7 @@ using namespace atcoder;
 #define NO cout << "NO" << el
 using ll = long long;
 using P = pair<int,int>;
+using Pll = pair<ll,ll>;
 using Graph = vector<vector<int>>;
 using mint = modint1000000007;
 const int inf = 1e9;
@@ -47,34 +48,29 @@ void print2DVec(const std::vector<std::vector<T>>& array) {
 using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
-int op(int a,int b){
-    return min(a,b);
-}
-
-int e(){
-    return inf;
-}
 int main() {
-    int n,l,r;
-    cin >> n >> l >> r;
-    vector<int> x(n);
-    rep(i,n) cin >> x[i];
+    int n,L,k;
+    cin >> n >> L >> k;
+    vector<int> a(n);
+    rep(i,n) cin >> a[i];
+    auto f = [&](int x){ //スコアはx以上か?
+        int pre = 0,cnt = 0;
+        rep(i,n){
+            if(a[i]-pre >= x && L - a[i] >= x){
+                cnt++;
+                pre = a[i];
+            }
+        }
+        return cnt >= k;
+    };
 
-    segtree<int ,op,e> Z(n);
+    ll l = -1,r=1e9+1;
 
-    vector<int> dp(n,inf);
-    dp[0] = 0;
-    Z.set(0,0);
-    //いける場所はl<= x <=rなので 
-    rep3(i,1,n){
-        int posl = lower_bound(all(x),x[i] - r) - x.begin();
-        int posr = lower_bound(all(x),x[i]-l+1) - x.begin();
-        posr--;
-        if(posr == -1) continue;
-        else chmin(dp[i],Z.prod(posl,posr+1)+1);
-        Z.set(i,dp[i]);
+    while(r - l > 1){
+        ll mid = (r+l)/2;
+        if(f(mid)) l = mid ;
+        else r = mid;
     }
-    cout << dp[n-1] << endl;
-    // printVec(dp);
+    cout << l << endl;
     return 0;
 }
