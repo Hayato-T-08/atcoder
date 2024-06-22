@@ -21,5 +21,5 @@ touch "${dir_name}/d.cpp"
 touch "${dir_name}/e.cpp"
 touch "${dir_name}/f.cpp"
 
-# cd "$dir_name"
+cd "$dir_name"
 echo "ディレクトリ ${dir_name} に移動し、ファイル a.cpp, b.cpp, c.cpp, d.cpp, e.cpp, f.cpp を作成しました。"

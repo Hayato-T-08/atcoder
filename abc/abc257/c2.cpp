@@ -48,33 +48,32 @@ void p2V(const std::vector<std::vector<T>>& array) {
 using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
-int main() {
-    int n;
-    string s;
-    cin >> n >> s;
-    vector<int> w(n);
-    vector<pair<int,char>> h(n);
-    rep(i,n) cin >> w[i];
-    int ans = 0;
-    rep(i,n) h[i].first = w[i], h[i].second = s[i];
-    rep(i,n) if(s[i] == '1') ans++;//全員大人の時の正しく判定できている人数
-    int res = ans;
-    sort(all(h));
-    rep(i,n) {//一人ずつ子供に変えていく
-        if(h[i].second == '1') {
-            res--;
-        } else {
-            res++;
-        }
-        //同じ体重の人がいる場合同じ重さでもs[i]が異なる場合があるので
-        //同時に処理しないといけない
-        if(i < n-1){
-            if(h[i].first != h[i+1].first) {
-                chmax(ans,res);
-            }
-        }else chmax(ans,res);
+
+int N;
+string S;
+int W[201010];
+vector<pair<int, char>> WS;
+
+int op(int a, int b) { return a + b; }
+int e() { return 0; }
+
+void _main() {
+    cin >> N >> S;
+    rep(i, N) cin >> W[i];
+    rep(i, N) WS.push_back({ W[i], -S[i] });
+    sort(all(WS));
+
+    segtree<int, op, e> zero(vector<int>(N, 0));//0の数
+    segtree<int, op, e> one(vector<int>(N, 0));//1の数
+    rep(i, N) {
+        if (-WS[i].second == '0') zero.set(i, 1);
+        else one.set(i, 1);
     }
 
-    cout << ans << el;
-    return 0;
+    int ans = -1;//境界線を全探索する
+    rep(i,N + 1) chmax(ans, zero.prod(0, i) + one.prod(i, N));
+    //最初は全員大人の時の正しく判定できている人数(one.prod(0, N))
+    //境界線をiにするときの正しく判定できている人数(zero.prod(0, i)子供の数)
+    //+正しく判定できている人数(one.prod(i, N)大人の数)
+    cout << ans << endl;
 }
