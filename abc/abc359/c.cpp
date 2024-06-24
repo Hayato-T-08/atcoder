@@ -51,28 +51,25 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 int main() {
     ll sx,sy,tx,ty;
     cin >> sx >> sy >> tx >> ty;
-    ll w = 2*1e16+10;
-    sx += w;
-    sy += w;
-    tx += w;
-    ty += w;
-    ll suby = abs(sy-ty);
-    ll subx = abs(sx-tx);
+
     ll ans=0;
     ll s = (sx+sy)%2;
     ll t = (tx+ty)%2;
-    if(subx <= suby + 1){
-        cout << suby << el;
+    if(s == 1) sx--;//タイルが二番目の時左に寄せる 
+    if(t == 1) tx--;//左に寄せる
+    ll Dy = abs(sy-ty);
+    ll Dx = abs(sx-tx);
+    // cout << sx << " " << sy << " " << tx << " " << ty << el;
+    //スタートが偶数、奇数、ゴールが偶数、奇数で場合分けしてもよい
+    if(Dx <= Dy){
+        cout << Dy << el;
         return 0;
     }else{
-        ll tmp = subx - (suby+1);
-        if(s == t){
-            ans += suby;
-            ans+= tmp/2;
-        }else{
-            ans += suby;
-            ans += (tmp+1)/2;
-        }
+        ll tmp = Dx - Dy;
+        ans += Dy;
+        ans += tmp/2;
+        
+
         cout << ans << el;
         return 0;
     }
