@@ -48,35 +48,46 @@ void p2V(const std::vector<std::vector<T>>& array) {
 using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
-
 int main() {
     int n;
     cin >> n;
     vector<int> x(n),y(n);
-    vector<P> l,r;
     rep(i,n) cin >> x[i] >> y[i];
     string s;
     cin >> s;
+    map<int,int> r_min, l_max;//y座標ごとに最も右にあるRと最も左にあるL
+    bool ok = true;
     rep(i,n){
-        if(s[i] == 'L') l.push_back({y[i],-x[i]});
-        else r.push_back({y[i],x[i]});
-    }
-    sort(all(l));
-    sort(all(r));
-    vector<int> ly,ry,rx,lx;
-    for(auto [y,x]: l) ly.push_back(y),lx.push_back(-x);
-    for(auto [y,x]: r) ry.push_back(y),rx.push_back(x);
-    rep(i,ly.size()){
-        auto it = lower_bound(all(ry),ly[i]) - ry.begin();
-        if(it == ry.size()) continue;
-        if(ly[i] == ry[it]){
-            if(rx[it] < lx[i]){
-                cout << "Yes" << el;
-                return 0;
+        if(s[i] == 'R'){
+            if(l_max.count(y[i])){
+                if(l_max[y[i]] > x[i]){
+                    ok = false;
+                    break;
+                }
+            }
+        }else{
+            if(r_min.count(y[i])){
+                if(r_min[y[i]] < x[i]){
+                    ok = false;
+                    break;
+                }
             }
         }
-        
+        if(s[i] == 'R'){
+            if(r_min.count(y[i])){
+                r_min[y[i]] = min(r_min[y[i]],x[i]);
+            }else{
+                r_min[y[i]] = x[i];
+            }
+        }else{
+            if(l_max.count(y[i])){
+                l_max[y[i]] = max(l_max[y[i]],x[i]);
+            }else{
+                l_max[y[i]] = x[i];
+            }
+        }
     }
-    cout << "No" << el;
+    if(ok) No;
+    else Yes;
     return 0;
 }
