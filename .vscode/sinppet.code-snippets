@@ -39,9 +39,9 @@
 			"using Pll = pair<ll,ll>;",
 			"using Graph = vector<vector<int>>;",
 			"using mint = modint1000000007;",
-			"const int inf = 1e9;",
+			"const int inf = 1073741823;",
 			"const int mod = 1e9+7;",
-			"const ll linf = 1e18;",
+			"const ll linf = 1LL << 60;",
 			"const string ABC = \"ABCDEFGHIJKLMNOPQRSTUVWXYZ\";",
 			"const string abc = \"abcdefghijklmnopqrstuvwxyz\";",
 
