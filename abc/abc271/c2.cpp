@@ -58,30 +58,18 @@ int main() {
     cin >> n;
     vector<int> a(n);
     rep(i,n) cin >> a[i];
-    auto f = [&](int x) -> bool {
-        int sol = 0;
-        vector<bool> b(n+1,false);
-        rep(i,n){
-            if(a[i] > x) sol++;
-            else if(b[a[i]]) sol++;
-            else b[a[i]] = true;
-        }
-        int cnt = 0;
-        rep1(i,x){
-            if(b[i]) cnt++;
-            else if(sol >= 2){
-                sol-=2;
-                cnt++;
-            }else break;
-        }
-        return cnt >= x;
-    };
-    int ok = 0, ng = n+1;
-    while( ng - ok > 1){
-        int mid = (ok + ng) / 2;
-        if(f(mid)) ok = mid;
-        else ng = mid;
+
+    unordered_set<int> st;//O(n)でsetよりも高速
+    rep(i,n) {
+        st.insert(a[i]);
     }
-    cout << ok << el;
+    int ans = 0,s=0;
+    for(int i=1;;i++){
+        if(st.count(i)) s+=1;//ある場合コストは1
+        else s+=2;//ない場合コストは2
+        if(s > n) break;//コストがnを超えたら終了
+        ans = i;
+    }
+    cout << ans << el;
     return 0;
 }
