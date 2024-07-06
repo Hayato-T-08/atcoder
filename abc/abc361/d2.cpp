@@ -53,26 +53,69 @@ void p2V(const std::vector<std::vector<T>>& array) {
 using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
-int main() {
-    int n,a,b;
-    cin >> n;
-    cin >> a >> b;  
-    vector<int> d(n);
-    rep(i,n) {
 
-        cin >> d[i];
-        d[i]%=(a+b);
+struct State {
+    vector<char> cells;
+    int moves;
 
+    bool operator<(const State& other) const {
+        return cells < other.cells;
     }
-    sort(all(d));
-    d.erase(unique(all(d)),d.end());
+};
 
-    bool ans = true;
+int minMoves(int N, string S, string T) {
+    vector<char> start(N + 2, '.');
+    vector<char> goal(N + 2, '.');
 
-    if(d[d.size()-1] - d[0] + 1 > a) ans = false;
+    for (int i = 0; i < N; i++) {
+        start[i] = S[i];
+        goal[i] = T[i];
+    }
 
-    if(ans) Yes;
-    else No;
-  
+    set<State> visited;
+    queue<State> q;
+    q.push({start, 0});
+    visited.insert({start, 0});
+
+    while (!q.empty()) {
+        State current = q.front();
+        q.pop();
+
+        if (current.cells == goal) {
+            return current.moves;
+        }
+
+        for (int i = 0; i <= N; i++) {
+            if (current.cells[i] != '.' && current.cells[i + 1] != '.') {
+                for (int j = 0; j <= N; j++) {
+                    if (current.cells[j] == '.' && current.cells[j + 1] == '.') {
+                        vector<char> nextCells = current.cells;
+                        nextCells[j] = nextCells[i];
+                        nextCells[j + 1] = nextCells[i + 1];
+                        nextCells[i] = '.';
+                        nextCells[i + 1] = '.';
+                        
+                        State nextState = {nextCells, current.moves + 1};
+                        
+                        if (visited.find(nextState) == visited.end()) {
+                            q.push(nextState);
+                            visited.insert(nextState);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return -1;
+}
+
+int main() {
+    int N;
+    string S, T;
+
+    cin >> N >> S >> T;
+    cout << minMoves(N, S, T) << endl; 
+
     return 0;
 }

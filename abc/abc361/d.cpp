@@ -54,25 +54,22 @@ using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 int main() {
-    int n,a,b;
-    cin >> n;
-    cin >> a >> b;  
-    vector<int> d(n);
+    int n;
+    string s,t;
+    cin >> n >> s >> t;
+    int sw = 0, tw = 0,sb = 0,tb = 0;
     rep(i,n) {
-
-        cin >> d[i];
-        d[i]%=(a+b);
-
+        if (s[i] == 'W') sw++;
+        if (t[i] == 'W') tw++;
+        if (s[i] == 'B') sb++;
+        if (t[i] == 'B') tb++;
     }
-    sort(all(d));
-    d.erase(unique(all(d)),d.end());
+    if(sw != tw || sb != tb) {
+        cout << -1 << el;
+        return 0;
+    }
 
-    bool ans = true;
+    
 
-    if(d[d.size()-1] - d[0] + 1 > a) ans = false;
-
-    if(ans) Yes;
-    else No;
-  
     return 0;
 }

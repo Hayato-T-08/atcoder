@@ -53,26 +53,50 @@ void p2V(const std::vector<std::vector<T>>& array) {
 using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
-int main() {
-    int n,a,b;
-    cin >> n;
-    cin >> a >> b;  
-    vector<int> d(n);
-    rep(i,n) {
+struct RectangularPrism {
+    int x1, y1, z1;
+    int x2, y2, z2;
 
-        cin >> d[i];
-        d[i]%=(a+b);
-
+    RectangularPrism(int a, int b, int c, int d, int e, int f) {
+        x1 = std::min(a, d);
+        y1 = std::min(b, e);
+        z1 = std::min(c, f);
+        x2 = std::max(a, d);
+        y2 = std::max(b, e);
+        z2 = std::max(c, f);
     }
-    sort(all(d));
-    d.erase(unique(all(d)),d.end());
+};
 
-    bool ans = true;
+bool isIntersectionVolumePositive(RectangularPrism A, RectangularPrism B) {
+    int intersect_x1 = std::max(A.x1, B.x1);
+    int intersect_y1 = std::max(A.y1, B.y1);
+    int intersect_z1 = std::max(A.z1, B.z1);
+    int intersect_x2 = std::min(A.x2, B.x2);
+    int intersect_y2 = std::min(A.y2, B.y2);
+    int intersect_z2 = std::min(A.z2, B.z2);
 
-    if(d[d.size()-1] - d[0] + 1 > a) ans = false;
+    int intersect_length_x = intersect_x2 - intersect_x1;
+    int intersect_length_y = intersect_y2 - intersect_y1;
+    int intersect_length_z = intersect_z2 - intersect_z1;
 
-    if(ans) Yes;
-    else No;
-  
+    return (intersect_length_x > 0 && intersect_length_y > 0 && intersect_length_z > 0);
+}
+
+int main() {
+    int a, b, c, d, e, f;
+    int g, h, i, j, k, l;
+    
+    std::cin >> a >> b >> c >> d >> e >> f;
+    std::cin >> g >> h >> i >> j >> k >> l;
+    
+    RectangularPrism C1(a, b, c, d, e, f);
+    RectangularPrism C2(g, h, i, j, k, l);
+
+    if (isIntersectionVolumePositive(C1, C2)) {
+        std::cout << "Yes" << std::endl;
+    } else {
+        std::cout << "No" << std::endl;
+    }
+
     return 0;
 }
