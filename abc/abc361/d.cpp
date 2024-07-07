@@ -55,21 +55,34 @@ template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, tr
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 int main() {
     int n;
+    cin >> n;
     string s,t;
     cin >> n >> s >> t;
-    int sw = 0, tw = 0,sb = 0,tb = 0;
-    rep(i,n) {
-        if (s[i] == 'W') sw++;
-        if (t[i] == 'W') tw++;
-        if (s[i] == 'B') sb++;
-        if (t[i] == 'B') tb++;
+    s+="..";
+    t+="..";
+    map<string,int> dist;
+    queue<string> q;
+    q.push(s);
+    dist[s] = 0;
+
+    while(!q.empty()){
+        string s = q.front(); q.pop();
+        int j=0;
+        while(s[j] != '.') j++;
+        rep(i,n+1){
+            if(s[i] == '.' || s[i+1] == '.') continue;
+            string ns=s;
+            swap(ns[j],ns[i]);
+            swap(ns[j+1],ns[i+1]);
+            if(dist.count(ns)) continue;
+            dist[ns] = dist[s]+1;
+            q.push(ns);
+        }
     }
-    if(sw != tw || sb != tb) {
+    if(dist.count(t)){
+        cout << dist[t] << el;
+    }else{
         cout << -1 << el;
-        return 0;
     }
-
-    
-
     return 0;
 }

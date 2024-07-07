@@ -57,22 +57,25 @@ int main() {
     int n,a,b;
     cin >> n;
     cin >> a >> b;  
+    int w = a+b;
     vector<int> d(n);
-    rep(i,n) {
 
+    rep(i,n){
         cin >> d[i];
-        d[i]%=(a+b);
-
+        d[i] %= w;
     }
+
     sort(all(d));
-    d.erase(unique(all(d)),d.end());
+    rep(i,n) d.push_back(d[i]+w);// 2周分
 
-    bool ans = true;
-
-    if(d[d.size()-1] - d[0] + 1 > a) ans = false;
-
-    if(ans) Yes;
-    else No;
-  
+    rep(i,n){
+        int l = d[i],r = d[i+n-1];
+        //lが最初の休日、rが最後の休日
+        if(r-l+1 <= a){
+            Yes;
+            return 0;
+        }
+    }
+    No;
     return 0;
 }
