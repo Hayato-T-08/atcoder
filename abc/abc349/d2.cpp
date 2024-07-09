@@ -54,9 +54,26 @@ using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 int main() {
-    int n;
-    cin >> n;
-    int ans = 0;
-    cout << ans << endl;
+    ll L,R;
+    cin >> L >> R;
+    vector<Pll> lr;
+    auto f = [&](auto f,ll l, ll r , ll L ,ll R) -> void {
+        if(L <= l and r <= R){//完全に含まれる
+            lr.push_back({l,r});
+            return;
+        }
+        ll m = (l+r)/2;
+        if(R <= m) f(f,l,m,L,R);
+        else if(L >= m) f(f,m,r,L,R);
+        else{
+            f(f,l,m,L,R);
+            f(f,m,r,L,R);
+        }
+    };
+    f(f,0,(1LL<<60),L,R);
+    cout << lr.size() << endl;
+    for(auto x : lr){
+        cout << x.first << " " << x.second << endl;
+    }
     return 0;
 }
