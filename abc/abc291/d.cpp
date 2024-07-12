@@ -58,9 +58,21 @@ int main() {
     cin >> n;
     vector<int> a(n), b(n);
     rep(i,n) cin >> a[i] >> b[i];
-    mint ans = 2;
-    ans = ans.pow(n);
-
-    cout << ans.val() << el;
+    vector<vector<mint>> dp(n, vector<mint>(2,0));
+    dp[0][0] = 1;
+    dp[0][1] = 1;
+    rep(i,n-1){
+        rep(j,2){
+            rep(k,2){
+                int prev = (j == 0) ? a[i] : b[i];
+                int next = (k == 0) ? a[i+1] : b[i+1];
+                if(prev != next){
+                    dp[i+1][k] += dp[i][j];
+                }
+            }
+        }
+    }
+    mint ans = dp[n-1][0] + dp[n-1][1];
+    cout << ans.val() << endl;
     return 0;
 }
