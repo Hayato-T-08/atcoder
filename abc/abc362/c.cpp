@@ -53,91 +53,31 @@ void p2V(const std::vector<std::vector<T>>& array) {
 using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
-
-bool canSumToZero(int n, const vector<int>& L, const vector<int>& R, vector<int>& result) {
-    long long sumL = 0, sumR = 0;
-    rep(i, n) {
-        sumL += L[i];
-        sumR += R[i];
-    }
-
-    // 全体の範囲が0を含まない場合は不可能
-    if (sumL > 0 || sumR < 0) return false;
-
-    // 各区間の中央値を取って初期総和を計算
-    vector<int> medians(n);
-    rep(i, n) {
-        medians[i] = (L[i] + R[i]) / 2;
-    }
-
-    // 初期総和が0になるように調整する
-    long long sumMedians = accumulate(all(medians), 0LL);
-    long long target = -sumMedians;
-
-    // 調整可能かどうかを確認
-    vector<pair<int, int>> adjustments;
-    rep(i, n) {
-        adjustments.emplace_back(medians[i] - L[i], i); // (調整量, インデックス)
-        adjustments.emplace_back(R[i] - medians[i], i);
-    }
-
-    sort(rall(adjustments));
-    long long adjustmentSum = 0;
-    vector<bool> used(n, false);
-    for (const auto& [adj, idx] : adjustments) {
-        if (!used[idx]) {
-            adjustmentSum += adj;
-            used[idx] = true;
-            if (adjustmentSum >= target) {
-                rep(i, n) {
-                    if (used[i]) {
-                        result[i] = medians[i];
-                    } else {
-                        result[i] = L[i]; // 使われなかった区間はL[i]を選ぶ
-                    }
-                }
-
-                // 最後に残りの調整を行う
-                long long remainingAdjustment = adjustmentSum - target;
-                rep(i, n) {
-                    if (remainingAdjustment == 0) break;
-                    if (result[i] > L[i]) {
-                        long long adjustment = min(remainingAdjustment, (long long)result[i] - L[i]);
-                        result[i] -= adjustment;
-                        remainingAdjustment -= adjustment;
-                    } else if (result[i] < R[i]) {
-                        long long adjustment = min(remainingAdjustment, (long long)R[i] - result[i]);
-                        result[i] += adjustment;
-                        remainingAdjustment -= adjustment;
-                    }
-                }
-
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
 int main() {
     int n;
     cin >> n;
-    vector<int> L(n), R(n);
-    rep(i, n) {
-        cin >> L[i] >> R[i];
+    vector<int> l(n), r(n);
+    rep(i,n) cin >> l[i] >> r[i];
+    vector<int> x(n);
+    ll sum_l=0,sum_r = 0;
+    rep(i,n) {
+        sum_l += l[i];
+        sum_r += r[i];
     }
-
-    vector<int> result(n);
-    if (canSumToZero(n, L, R, result)) {
-        Yes;
-        rep(i, n) {
-            cout << result[i] << " ";
-        }
-        cout << el;
-    } else {
+    if(sum_l > 0 or sum_r < 0) {
         No;
+        return 0;
+    }else{
+        Yes;
+        rep(i,n) x[i] = l[i];
+        ll sum = sum_l;
+        rep(i,n){
+            if(sum == 0) break;
+            ll d = min(-sum, (ll)r[i]-l[i]);
+            x[i] += d;
+            sum += d;
+        }
+        rep(i,n) cout << x[i] << " ";
     }
-
     return 0;
 }
