@@ -54,34 +54,35 @@ using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 int main() {
-    string s;
-    cin >> s;
-
-    int n = s.size();
-    stack<int> st;
-    stack<pair<char,int>> box;
-    vector<bool> used(26,false);
-
+    int n,q;
+    cin >> n >> q;
+    map<int,ll> add;
+    int base = 0;
     rep(i,n){
-        if(s[i] == '('){
-            st.push(i);
-        }else if(s[i] == ')'){
-            int j = st.top();
-            st.pop();
-            while(!box.empty() && box.top().second > j){
-                used[(int)(box.top().first-'a')] = false;
-                box.pop();
-            }
-            
-        }else{
-            if(used[(int)(s[i]-'a')]){
-                No;
-                return 0;
-            }
-            used[(int)(s[i]-'a')] = true;
-            box.push({s[i],i});
+        int a;
+        cin >> a;
+        add[i] += a;
+    }
+
+    rep(qi,q){
+        int t;
+        cin >> t;
+        if(t==1){
+            int x;
+            cin >> x;
+            base = x;
+            add.clear();
+        }else if(t==2){
+            int i,x;
+            cin >> i >> x;
+            add[i] += x;
+        }
+        else{
+            int i;
+            cin >> i;
+            ll ans = add[i] + base;
+            cout << ans << el;
         }
     }
-    Yes;
     return 0;
 }
