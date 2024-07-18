@@ -63,38 +63,23 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 int main() {
     ll n,p,q,r;
     cin >> n >> p >> q >> r;
-    segtree<ll, op, e> seg(n);
-    rep(i,n){
-        ll a;
-        cin >> a;
-        seg.set(i, a);
-    }
-    ll x=-1,y=-1,z=-1,w=-1;
-    vector<P> range;
-    auto f = [&](ll x) { return x <= p; };
-    auto f2 = [&](ll x) { return x <= q; };
-    auto f3 = [&](ll x) { return x <= r; };
-    rep(i,n){
-        x = i;
-        int y = seg.max_right(x,f);
-        if(y == n) continue;
-        ll sumXY = seg.prod(x,y);
-        if(sumXY != p) continue;
-        
-        int z = seg.max_right(y,f2);
-        if(z == n) continue;
-        ll sumYZ = seg.prod(y,z);
-        if(sumYZ != q) continue;
-        
-        int w = seg.max_right(z,f3);
-        ll sumZW = seg.prod(z,w);
-        if(sumZW != r) continue;
-
-        ll sum = seg.prod(x,y) + seg.prod(y,z) + seg.prod(z,w);
-        if(sum == p + q + r && x < y && y < z && z < w && w <= n && x >= 0){
-            Yes;
-            return 0;
-        } 
+    vector<ll> a(n),sum(n+1);
+    rep(i,n) cin >> a[i];
+    rep1(i,n) sum[i] = sum[i-1] + a[i-1];
+    //sum[i+1] が i 番目までの和よって区間[x,y)の総和は sum[y] - sum[x]
+    //
+    rep(x,n){
+        int y = lower_bound(all(sum), sum[x]+p) - sum.begin();
+        if(y == n+1) continue;
+        if(sum[y] - sum[x] != p) continue;
+        int z = lower_bound(all(sum), sum[y]+q) - sum.begin();
+        if(z == n+1) continue;
+        if(sum[z] - sum[y] != q) continue;
+        int w = lower_bound(all(sum), sum[z]+r) - sum.begin();
+        if(w == n+1) continue;
+        if(sum[w] - sum[z] != r) continue;
+        Yes;
+        return 0;
     }
     No;
     return 0;
