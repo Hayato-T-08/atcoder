@@ -56,23 +56,31 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 int main() {
     ll n;
     cin >> n;
-    string s = to_string(n);
-    ll len = s.size();
-    vector<ll> a(36);
-    a[1] = 9;
-    
-    for(int i=2;i<36;i++){
-        if(i%2==0){
-            a[i] = 9 * pow(10, i/2-1);
-        }else{
-            a[i] = 9 * pow(10, (i-1)/2);
+    if(n==1){
+        cout << 0 << el;
+        return 0;
+    }//0を例外処理することで、n-1の処理を簡略化できる
+    n--;
+    for(int keta = 1;; keta++){//1桁、2桁、3桁...と増やしていく
+        int l = (keta+1)/2;//ketaが奇数ならlはketa/2+1、偶数ならketa/2
+        // 9 9 90 90 900 900 9000 9000と増加していくため
+        ll num = 9;
+        rep(i,l-1) num *= 10;//各桁の回文数の個数
+        if(n > num) {//回文数の個数よりもnが大きい場合には、numを引いてnを減らす
+            n-=num;
+            continue;
         }
-    
+        //nは各桁数の回文数から何番目の回文数かを表す
+        // 1 : num/9
+        n += num/9-1;//n--をしたので、nは0-indexedになっている
+        //また桁数の最初の数は10000... 10^(l-1) n番目の回文数ha n + num/9 - 1となる
+        string s = to_string(n);
+        string rs = s;
+        reverse(all(rs));
+        if(keta%2 == 1) s.pop_back();//奇数桁の場合は、最後の桁を削除
+        s+=rs;
+        cout << s << el;
+        return 0;
     }
-
-    for(int i=1;i<36; i++){
-        cout << i << " " << a[i] << el;
-    }
-
     return 0;
 }

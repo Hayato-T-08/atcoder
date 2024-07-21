@@ -54,29 +54,25 @@ using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 int main() {
-    int n,q;
-    cin >> n >> q;
-    vector<ll> a(n),out,sum(n+1);
-    rep(i,n) cin >> a[i];
-    sort(all(a));
-    rep(i,n) sum[i+1] = sum[i]+a[i];
-    rep(i,q){
-        ll x;
-        cin >> x;
-        ll ans = 0;
-        auto it = upper_bound(all(a),x);// xより大きい最初の要素 0-indexなので
-        //xより小さい要素の数
-        if(it == a.begin()) ans = abs(x*(ll)n-sum[n]);
-        else if(it == a.end()) ans = abs(x*(ll)n-sum[n]);
-        else{
-            ll idx = it-a.begin();
-            ans = abs(x*idx- sum[idx]) + abs(x*(n-idx) - (sum[n]-sum[idx]));
-            //sum[n] - sum[idx]はidxより大きい要素の合計 sum[n]からidx+1までの合計
-            //
+    ll n,ans=0;
+    cin >> n;
+    const int M = 1e6;//q*q*q <= 10^18なのでq<=10^6
+    vector<bool> isP(M+1,true);
+    vector<int> primes;
+    isP[0] = isP[1] = false;
+    for(int i=2;i<=M;i++){
+        if(!isP[i]) continue;
+        primes.push_back(i);
+        for(ll j=(ll)i*i; j<=M; j+=i){
+            isP[j] = false;
         }
-        out.push_back(ans);
-    }
+    }//エラトステネスの篩
 
-    for(auto x:out) cout << x << el;
+    sort(all(primes));
+    for(int q : primes){
+        int cnt = upper_bound(all(primes),min<ll>(n/q/q/q,q-1)) - primes.begin();
+        ans += cnt;
+    }
+    cout << ans << el;
     return 0;
 }

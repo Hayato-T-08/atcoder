@@ -56,6 +56,24 @@ public:
         return result;
     }
 
+    BigInteger operator*(const BigInteger& other) const {
+        BigInteger result;
+        result.digits.resize(digits.size() + other.digits.size(), 0);
+        for (size_t i = 0; i < digits.size(); i++) {
+            int carry = 0;
+            for (size_t j = 0; j < other.digits.size() || carry; j++) {
+                int prod = result.digits[i + j] + carry;
+                if (j < other.digits.size()) prod += digits[i] * other.digits[j];
+                result.digits[i + j] = prod % 10;
+                carry = prod / 10;
+            }
+        }
+        while (result.digits.size() > 1 && result.digits.back() == 0) {
+            result.digits.pop_back();
+        }
+        return result;
+    }
+
     bool operator<(const BigInteger& other) const {
         if (digits.size() != other.digits.size())
             return digits.size() < other.digits.size();
