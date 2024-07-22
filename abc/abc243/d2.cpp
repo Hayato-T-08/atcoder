@@ -56,41 +56,30 @@ template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, tr
 int main() {
     int n;
     cin >> n;
-    deque<Pll> q;
-    rep(i,n){
-        int type;
-        cin >> type;
-        if(type == 1){
-            int x,c;
-            cin >> x >> c;
-            q.push_back({x,c});
-        }else if(type == 2){
-            int c;
-            cin >> c;
-            ll sum = 0;
-            while(c != 0){
-                if(q.empty()){
-                    break;
-                }
-                auto [x, cnt] = q.front();
-                if(cnt >= c){
-                    sum += c * x;
-                    cnt -= c;
-                    c = 0;
-                }else{
-                    sum += cnt * x;
-                    c -= cnt;
-                    cnt = 0;
-                }
-                q.pop_front();
-                if(cnt > 0){
-                    q.push_front({x,cnt});
-                }
-            }
-            cout << sum << el;
+    ll x;
+    cin >> x;
+    string s;
+    cin >> s;
+
+    string now = "";
+    while(x != 0){
+        if(x % 2 == 0){
+            now = now + "0";
+        }else{
+            now = now + "1";
         }
-
+        x /= 2;
     }
-
+    reverse(all(now));
+    rep(i,n){
+        if(s[i] == 'U'){
+            now.pop_back();
+        }else if(s[i] == 'L'){
+            now+="0";
+        }else{
+            now+="1";
+        }
+    }
+    cout << stoll(now,0,2) << el;
     return 0;
 }
