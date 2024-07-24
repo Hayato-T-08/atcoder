@@ -58,17 +58,14 @@ int main() {
     cin >> n;
     string s;
     cin >> s;
-    string ans =  to_string(n);
-    for(int i = n-1;i>=0 ;i--){
-        if(s[i] == 'L'){
-            ans = ans + to_string(i);
-        }else{
-            ans = to_string(i) + ans;
-        }
+
+    deque<int> deq;
+    deq.push_back(n);
+    for(int i = n-1; i >= 0; i--) {
+        if(s[i] == 'L') deq.push_back(i);
+        else deq.push_front(i);
     }
-    rep(i,ans.size()){
-        cout << ans[i] << " ";
-    }
-    cout << el;
+
+    for(auto x : deq) cout << x << " ";
     return 0;
 }

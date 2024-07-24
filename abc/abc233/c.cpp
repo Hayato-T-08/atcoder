@@ -86,7 +86,7 @@ int main() {
     ll ans = 0;
     rep(i,a[0].size()){
         ans += f(f,0,i,0);
-    }
+    }//
     cout << ans << el;
     return 0;
 }
