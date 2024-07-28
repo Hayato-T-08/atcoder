@@ -68,33 +68,23 @@ int main() {
     rep(i, n) cin >> a[i];
     sort(all(a));
 
-    rep(_, q) {
-        int x, k;
-        cin >> x >> k;
-        k--;
-
-        auto it = lower_bound(all(a), x);
-        int pos = it - a.begin();
-
-        priority_queue<ll> max_heap;
-
-        for (int i = max(0, pos - k - 1); i < pos; ++i) {
-            ll dist = abs(a[i] - x);
-            max_heap.push(dist);
-            if (max_heap.size() > k + 1) {
-                max_heap.pop();
-            }
+    rep(i,q){
+        ll b,k;
+        cin >> b >> k;
+        auto f = [&](ll x){
+            int it1 = lower_bound(all(a), b-x) - a.begin();
+            int it2 = upper_bound(all(a), b+x) - a.begin();
+            //bjとの距離がx以下である要素の数がk以上か
+            return it2 - it1 >= k;
+        };
+        ll l = -1, r = 2*1e8;
+        //bjとの距離がx以下である個数がk以上である最小のxを求める
+        while(r - l > 1){
+            ll x = (l + r) / 2;
+            if(f(x)) r = x;
+            else l = x;
         }
-
-        for (int i = pos; i < min(n, pos + k + 1); ++i) {
-            ll dist = abs(a[i] - x);
-            max_heap.push(dist);
-            if (max_heap.size() > k + 1) {
-                max_heap.pop();
-            }
-        }
-
-        cout << max_heap.top() << '\n';
+        cout << r << el;
     }
 
     return 0;
