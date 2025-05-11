@@ -54,46 +54,22 @@ using ull = unsigned long long;
 template<typename T> inline bool chmax(T &a, T b) { return ((a < b) ? (a = b, true) : (false)); }
 template<typename T> inline bool chmin(T &a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 int main() {
-    string S,T;
-    cin >> S >> T;
+    int n;
+    cin >> n;
+    vector<int> k(n);
+    for(int i=0;i<n;i++) cin >> k[i];
 
-    vector<string> q;
-    int n = S.size();
-    vector<bool> isSame(n,false);
+    long long ans = linf;
 
-    for(int i=0;i<n;i++){
-        if(S[i] == T[i]) isSame[i] = true;
-    }
-    bool flag = true;
-    for(auto b : isSame){
-        flag &=b;
-    }
-    while(!flag){
-        vector<pair<string,int>> tmp;
-        for(int i=0;i<n;i++){
-            if(!isSame[i]){
-                string cur = S;
-                cur[i] = T[i];
-                tmp.push_back({cur,i});
-            }
+    for(int i=0;i<(1<<n);i++){
+        long long A=0,B=0;
+        for(int j=0;j<n;j++){
+            if(i & (1<<j)) A+=k[j];
+            else B+=k[j];
         }
-        sort(tmp.begin(), tmp.end());
-        string first = tmp[0].first;
-        int idx = tmp[0].second;
-        isSame[idx] = true;
-        bool check = true;
-        q.push_back(first);
-        S = first;
-        for(auto b : isSame){
-            check &=b;
-        }
-        flag = check;
+        long long maxVal = max(A,B);
+        ans = min(maxVal,ans);
     }
-    cout << q.size() << endl;
-    for(auto x:q){
-        cout << x << endl;
-    }
-
-
+    cout << ans << endl;
     return 0;
 }
